@@ -109,5 +109,35 @@ const PRELOADED_DECKS = [
     date: "2026-05-28",
     tags: ["NotebookLM", "Google", "RAG", "Knowledge Base", "Podcast"],
     slides: []
+  },
+  {
+    id: "pwa-tech-2026",
+    title: "PWA 技術介紹：迎戰 2026 的 Web 新紀元",
+    description: "打破網頁與 App 的界限，打造跨平台流暢體驗。深入解析 Service Workers、離線緩存與硬體存取限制。",
+    category: "technology",
+    author: "Luna Dev Team",
+    date: "2026-05-28",
+    tags: ["PWA", "Web Tech", "Service Worker", "Cross-Platform"],
+    slides: []
+  },
+  {
+    id: "firebase-ga4-2026",
+    title: "Firebase 與 GA4 埋點教學：從數據採集到 AI 洞察",
+    description: "掌握事件驅動模型，打造精準產品雷達。包含埋點實作、DebugView 驗證與 AI 預測指標應用。",
+    category: "technology",
+    author: "Luna Data Team",
+    date: "2026-05-28",
+    tags: ["Firebase", "GA4", "Data Analytics", "Tracking"],
+    slides: []
+  },
+  {
+    id: "ai-data-analysis-2026",
+    title: "AI 輔助資料處理：從混亂數據到商業洞察",
+    description: "掌握 AI 工具與視覺化邏輯，讓數據自己說故事。涵蓋數據清洗、EDA 與科學圖表選擇指南。",
+    category: "technology",
+    author: "Luna Analysis Team",
+    date: "2026-05-28",
+    tags: ["AI Data", "Visualization", "Data Analysis", "EDA"],
+    slides: []
   }
 ];

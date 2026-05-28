@@ -120,6 +120,15 @@ document.addEventListener("DOMContentLoaded", () => {
     if (decks[10] && typeof DECK_NOTEBOOKLM_MD !== "undefined") {
       decks[10].slides = parseMarkdownToSlides(DECK_NOTEBOOKLM_MD);
     }
+    if (decks[11] && typeof DECK_PWA_MD !== "undefined") {
+      decks[11].slides = parseMarkdownToSlides(DECK_PWA_MD);
+    }
+    if (decks[12] && typeof DECK_FIREBASE_MD !== "undefined") {
+      decks[12].slides = parseMarkdownToSlides(DECK_FIREBASE_MD);
+    }
+    if (decks[13] && typeof DECK_AI_DATA_ANALYSIS_MD !== "undefined") {
+      decks[13].slides = parseMarkdownToSlides(DECK_AI_DATA_ANALYSIS_MD);
+    }
 
     renderDecks();
     setupEventHandlers();
