@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Luna AI PPT Presentation Hub - 宇宙級靜態簡報展示站</title>
+  <meta name="description" content="基於 Web 端的華麗、響應式且具備極致 3D 轉場效果的 AI 簡報展示與生成系統。支援 Markdown 轉 PPT、雷射筆、自動播放。">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Vercount.one Traffic counter async (as instructed in developer guide) -->
+  <script async src="https://www.vercount.one/js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- Navigation Header -->
+    <header class="hub-header">
+      <a href="#" class="brand" id="brand-link">
+        <div class="brand-icon">
+          <i data-lucide="presentation"></i>
+        </div>
+        <span class="brand-text">Luna PPT</span>
+        <span class="brand-tag">Hub</span>
+      </a>
+      
+      <div class="nav-actions">
+        <button class="btn btn-secondary" id="btn-show-creator">
+          <i data-lucide="plus-circle"></i>
+          製作簡報
+        </button>
+        <button class="btn btn-primary" id="btn-show-decks">
+          <i data-lucide="grid"></i>
+          簡報庫
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="hub-main">
+      
+      <!-- Welcome Hero Banner -->
+      <section class="hero-section">
+        <h1 class="hero-title">Luna AI PPT 簡報展示平台</h1>
+        <p class="hero-subtitle">探索高質感、全自動的靜態簡報世界。在這裡，我們用代碼與美學，將枯燥的文字瞬間轉化成吸引眼球的 3D 視覺饗宴。</p>
+      </section>
+
+      <!-- Tabs Navigation -->
+      <div class="tabs-container">
+        <button class="tab-btn active" id="tab-decks">
+          <i data-lucide="database" style="display:inline; width:14px; height:14px; vertical-align:middle; margin-right:4px;"></i>
+          精選簡報
+        </button>
+        <button class="tab-btn" id="tab-creator">
+          <i data-lucide="edit-3" style="display:inline; width:14px; height:14px; vertical-align:middle; margin-right:4px;"></i>
+          自訂 Markdown 生成
+        </button>
+      </div>
+
+      <!-- DECKS GALLERY PANEL -->
+      <section class="decks-view" id="decks-panel">
+        <div class="decks-grid" id="decks-grid">
+          <!-- Dynamically populated cards will be placed here -->
+        </div>
+      </section>
+
+      <!-- CUSTOM PPT CREATOR PANEL -->
+      <section class="creator-view" id="creator-panel">
+        <div class="creator-title">自訂 Markdown PPT 生成器</div>
+        <p class="creator-desc">在此處貼入您的簡報 Markdown 格式文件（以 <code>---</code> 符號作為分頁線），系統將全自動識別結構、提取代碼/Prompt 並為您量身打造高質感簡報！</p>
+        
+        <div class="form-group">
+          <label class="form-label" for="custom-deck-title">簡報主題名稱</label>
+          <input type="text" class="form-input" id="custom-deck-title" placeholder="例如：我的第一個 AI 技術簡報" value="我的自訂技術分享簡報">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="custom-deck-markdown">簡報 Markdown 內容</label>
+          <textarea class="form-textarea" id="custom-deck-markdown" placeholder="## 頁面一標題&#10;這是頁面一的文字敘述內容...&#10;&#10;---&#10;&#10;## 頁面二標題&#10;* 清單項目 A&#10;* 清單項目 B"></textarea>
+        </div>
+
+        <!-- File Drag & Drop Zone -->
+        <div class="file-drop-zone" id="file-drop-zone">
+          <div class="file-drop-icon">📂</div>
+          <div class="file-drop-text">拖曳您的 Markdown (.md) 檔案至此，或 <span>瀏覽本機檔案</span></div>
+          <input type="file" id="file-input" accept=".md,.txt" style="display: none;">
+        </div>
+
+        <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+          <button class="btn btn-secondary" id="btn-load-demo-md">載入 Demo 範本</button>
+          <button class="btn btn-primary" id="btn-generate-ppt">
+            <i data-lucide="sparkles"></i>
+            立刻生成並放映
+          </button>
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- PPT PRESENTATION VIEW OVERLAY -->
+  <div class="player-view" id="ppt-player" tabindex="0">
+    
+    <!-- Top Progress & Control Header -->
+    <div class="player-top-bar">
+      <div class="player-title" id="player-deck-title">正在放映...</div>
+      <button class="player-close" id="btn-exit-player" title="退出簡報 (Esc)">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+
+    <!-- Active Presentation Stage -->
+    <div class="slide-stage" id="slide-stage">
+      
+      <!-- Target Slide Card Container -->
+      <div class="slide-container" id="slide-container">
+        <!-- Rendered active slide layout HTML will go here dynamically -->
+      </div>
+
+    </div>
+
+    <!-- Interactive Bottom Floating Controller -->
+    <div class="player-control-bar" id="player-controls">
+      
+      <div class="control-group">
+        <button class="control-btn" id="btn-prev-slide" title="上一頁 (左方向鍵)">
+          <i data-lucide="arrow-left"></i>
+        </button>
+        <span class="slide-counter" id="slide-number">0 / 0</span>
+        <button class="control-btn" id="btn-next-slide" title="下一頁 (右方向鍵/點擊/空白鍵)">
+          <i data-lucide="arrow-right"></i>
+        </button>
+      </div>
+
+      <div class="control-divider"></div>
+
+      <div class="control-group">
+        <button class="control-btn" id="btn-toggle-autoplay" title="播放/暫停 自動播放">
+          <i data-lucide="play" id="autoplay-icon"></i>
+        </button>
+        <select class="control-select" id="select-autoplay-speed" title="自動播放間隔">
+          <option value="3000">3 秒</option>
+          <option value="5000" selected>5 秒</option>
+          <option value="8000">8 秒</option>
+          <option value="12000">12 秒</option>
+        </select>
+      </div>
+
+      <div class="control-divider"></div>
+
+      <div class="control-group">
+        <i data-lucide="sparkle" style="width: 14px; height: 14px; color: var(--text-muted);"></i>
+        <select class="control-select" id="select-transition" title="3D 轉場特效">
+          <option value="slide">3D 平滑滑動</option>
+          <option value="fade">極致淡入淡出</option>
+          <option value="zoom">中心縮放縮進</option>
+          <option value="flip-3d" selected>3D 翻轉 (Flip)</option>
+          <option value="rotate-3d">3D 旋轉 (Rotate)</option>
+        </select>
+      </div>
+
+      <div class="control-divider"></div>
+
+      <div class="control-group">
+        <button class="control-btn" id="btn-toggle-laser" title="雷射筆工具 (L)">
+          <i data-lucide="target"></i>
+        </button>
+        <button class="control-btn" id="btn-toggle-fullscreen" title="切換全螢幕 (F)">
+          <i data-lucide="maximize-2"></i>
+        </button>
+        <button class="control-btn" id="btn-show-shortcuts" title="快捷鍵說明 (?)">
+          <i data-lucide="help-circle"></i>
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- KEYBOARD SHORTCUTS MODAL -->
+  <div class="shortcuts-modal" id="shortcuts-modal">
+    <div class="shortcuts-card">
+      <div class="shortcuts-title">簡報控制快捷鍵</div>
+      <div class="shortcuts-grid">
+        <span class="shortcut-key">→ / Space / Enter</span>
+        <span class="shortcut-desc">下一頁 (Next Slide)</span>
+        
+        <span class="shortcut-key">← / Backspace</span>
+        <span class="shortcut-desc">上一頁 (Prev Slide)</span>
+        
+        <span class="shortcut-key">Esc</span>
+        <span class="shortcut-desc">退出放映 (Exit Presentation)</span>
+        
+        <span class="shortcut-key">F</span>
+        <span class="shortcut-desc">切換全螢幕 (Toggle Fullscreen)</span>
+        
+        <span class="shortcut-key">L</span>
+        <span class="shortcut-desc">開啟/關閉雷射筆 (Laser Pointer)</span>
+        
+        <span class="shortcut-key">P</span>
+        <span class="shortcut-desc">啟動/暫停 自動播放 (Autoplay)</span>
+        
+        <span class="shortcut-key">?</span>
+        <span class="shortcut-desc">顯示/隱藏 本快捷鍵選單</span>
+      </div>
+      <button class="btn btn-primary" id="btn-close-shortcuts" style="width: 100%; justify-content: center;">
+        我知道了
+      </button>
+    </div>
+  </div>
+
+  <!-- TOAST ALERT NOTIFICATION -->
+  <div class="toast-alert" id="toast-alert">
+    <i data-lucide="check-circle" style="width: 18px; height: 18px;"></i>
+    <span id="toast-text">已成功複製 Prompt 到剪貼簿！</span>
+  </div>
+
+  <!-- ELASTIC LASER POINTER DOT -->
+  <div class="laser-pointer-trail" id="laser-pointer">
+    <div class="laser-pointer-dot"></div>
+  </div>
+
+  <!-- App Core Logics scripts -->
+  <script src="assets/js/slides-data.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
