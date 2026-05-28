@@ -590,7 +590,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         
         // Double tap/click on PPT Card to advance to next slide! (Requested by user)
-        new_card.addEventListener("dblclick", (e) => {
+        newCard.addEventListener("dblclick", (e) => {
           // If clicked inside the prompt sandbox or copy button, ignore slide advancement
           if (e.target.closest(".prompt-sandbox") || e.target.closest(".prompt-copy-btn")) {
             return;
