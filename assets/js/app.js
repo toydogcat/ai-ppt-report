@@ -589,8 +589,8 @@ document.addEventListener("DOMContentLoaded", () => {
           copyBtn.addEventListener("click", copyPromptContent);
         }
         
-        // Single tap/click on PPT Card to advance to next slide! (Requested by user)
-        newCard.addEventListener("click", (e) => {
+        // Double tap/click on PPT Card to advance to next slide! (Requested by user)
+        new_card.addEventListener("dblclick", (e) => {
           // If clicked inside the prompt sandbox or copy button, ignore slide advancement
           if (e.target.closest(".prompt-sandbox") || e.target.closest(".prompt-copy-btn")) {
             return;
@@ -623,7 +623,7 @@ document.addEventListener("DOMContentLoaded", () => {
         copyBtn.addEventListener("click", copyPromptContent);
       }
       
-      newCard.addEventListener("click", (e) => {
+      newCard.addEventListener("dblclick", (e) => {
         if (e.target.closest(".prompt-sandbox") || e.target.closest(".prompt-copy-btn")) {
           return;
         }
