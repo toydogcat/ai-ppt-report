@@ -613,6 +613,7 @@ body::after {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Decorative Background Glows inside slide */

@@ -59,6 +59,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- Initializer ---
   function init() {
+    // Populate slides from modular Markdown strings dynamically on load
+    if (decks[0] && typeof DECK_AI_APPLICATIONS_MD !== "undefined") {
+      decks[0].slides = parseMarkdownToSlides(DECK_AI_APPLICATIONS_MD);
+    }
+    if (decks[1] && typeof DECK_UIUX_DESIGN_MD !== "undefined") {
+      decks[1].slides = parseMarkdownToSlides(DECK_UIUX_DESIGN_MD);
+    }
+    if (decks[2] && typeof DECK_SEO_GEO_AIEO_MD !== "undefined") {
+      decks[2].slides = parseMarkdownToSlides(DECK_SEO_GEO_AIEO_MD);
+    }
+
     renderDecks();
     setupEventHandlers();
     lucide.createIcons();
@@ -416,7 +427,7 @@ document.addEventListener("DOMContentLoaded", () => {
             );
           }, 50);
         });
-      }, 200); // Dynamic transition timings
+      }, 250); // Dynamic transition timings
     } else {
       elSlideContainer.innerHTML = layoutHtml;
       const newCard = elSlideContainer.firstElementChild;
