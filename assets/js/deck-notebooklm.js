@@ -13,6 +13,16 @@ const DECK_NOTEBOOKLM_MD = `# NotebookLM 實戰教學
 
 ---
 
+## 課程思維導圖：NotebookLM 知識宇宙
+### 將海量資訊轉化為你的智力資產
+* **核心技術**：理解 Source-Grounded (來源錨定) 如何終結 AI 幻覺。
+* **資料融合**：打通 PDF、Google Drive、網頁與 YouTube 字幕的資料隔閡。
+* **智慧導覽**：自動生成學習指南與病毒式傳播的 Podcast 語音對覽。
+* **深度交互**：利用引用標籤 (Citations) 回溯原文，在筆記板上進行團隊協作。
+* **實戰場景**：針對研究員比對論文、業務準備會議與小說家設定世界觀。
+
+---
+
 ## 什麼是 Source-Grounded AI？
 ### 終結大模型的胡說八道 (幻覺)
 * NotebookLM 採用了 **Source-Grounded (來源錨定)** 技術。

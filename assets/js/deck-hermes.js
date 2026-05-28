@@ -13,6 +13,16 @@ const DECK_HERMES_MD = `# Hermes Agentic RAG 教學
 
 ---
 
+## 課程思維導圖：Hermes Agentic RAG 藍圖
+### 打造懂思考、主動查證的企業大腦
+* **模型強項**：認識 Nous Hermes 的 Function Calling 能力與高度的指令服從性。
+* **RAG 進化**：從「被動塞資料」的傳統 RAG 轉向「決定查什麼」的 Agentic RAG。
+* **多跳推理**：實作 Multi-hop Reasoning 解決連環問題，強制執行 JSON 結構化輸出。
+* **自我糾錯**：建立檢索失敗時的思考回饋 (CoT)，透過本地化部署保障數據隱私。
+* **UX 信任**：透明化顯示 AI 的思考過程與決策溯源，建立人機信任感。
+
+---
+
 ## 什麼是傳統 RAG？
 ### 檢索增強生成 (Retrieval-Augmented Generation)
 * **傳統 RAG 的運作方式**：

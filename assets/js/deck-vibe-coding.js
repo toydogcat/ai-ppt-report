@@ -13,6 +13,16 @@ const DECK_VIBE_CODING_MD = `# Vibe Coding 教學：AI First 開發新典範
 
 ---
 
+## 課程思維導圖：Vibe Coding 核心地圖
+### 從程式碼撰寫者進化為產品指揮官
+* **典範轉移**：從 Human-First (手動語法) 轉向 AI-First (語義驅動開發)。
+* **Spec 驅動**：掌握「規格大於語法」心法，撰寫具備 Context、Stack 與 AC 的高質量 Spec。
+* **工具鏈應用**：熟練 Cursor、Cline 等 IDE，建立「提示-生成-測試」的迭代循環。
+* **架構優化**：為了讓 AI 更好理解，實作高度模組化與語意化命名的程式碼結構。
+* **風險管理**：識別 AI 幻覺，利用自動化測試作為安全網，嚴防金鑰與資安外洩。
+
+---
+
 ## 典範轉移：Human First vs. AI First
 ### 開發模式的根本改變
 * **傳統開發 (Human First)**：

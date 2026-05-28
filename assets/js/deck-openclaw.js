@@ -13,6 +13,16 @@ const DECK_OPENCLAW_MD = `# OpenClaw (小龍蝦) AI Agent 教學
 
 ---
 
+## 課程思維導圖：OpenClaw 馴龍指南
+### 圈養一隻 24 小時工作的本地代理
+* **Agent 原理**：區分 Chatbot 與 Agent，理解「目標導向」與「自我修正」核心。
+* **系統能力**：賦予 AI 操作 Shell、文件系統與無頭瀏覽器的「執行權限」。
+* **長期記憶**：利用本地持久化記憶，讓 Agent 隨著時間進化，更懂你的偏好。
+* **實戰場景**：涵蓋自動化社群小編、舊專案重構工與市場情緒分析雷達。
+* **安全邊界**：實作 HITL (人機協同) 審批機制，並在 Docker 沙盒中安全運行。
+
+---
+
 ## 什麼是自主智慧體 (Autonomous Agent)？
 ### 從 Chatbot 到 Digital Employee
 * **Chatbot (對話機器人)**：被動回應。你問一句，它答一句。
