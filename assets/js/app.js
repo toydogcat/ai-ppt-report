@@ -1029,8 +1029,10 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("fullscreenchange", () => {
       if (!document.fullscreenElement) {
         elBtnToggleFullscreen.classList.remove("active");
+        elPlayer.classList.remove("fullscreen-mode");
       } else {
         elBtnToggleFullscreen.classList.add("active");
+        elPlayer.classList.add("fullscreen-mode");
       }
     });
     

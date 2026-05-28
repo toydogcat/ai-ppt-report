@@ -1372,3 +1372,54 @@ code {
   height: auto;
   object-fit: contain;
 }
+
+/* --- Fullscreen Optimization --- */
+.player-view.fullscreen-mode .slide-stage {
+  padding: 1rem;
+}
+
+.player-view.fullscreen-mode .slide-container {
+  max-width: 98vw;
+  max-height: 92vh;
+  width: 98vw;
+}
+
+.player-view.fullscreen-mode .slide-card {
+  padding: 4rem 6rem;
+  border-radius: 0; /* Optional: cleaner look in full screen */
+}
+
+/* Scaling text in fullscreen */
+.player-view.fullscreen-mode .layout-cover h1 {
+  font-size: 5.5rem;
+}
+
+.player-view.fullscreen-mode .layout-cover p {
+  font-size: 1.8rem;
+}
+
+.player-view.fullscreen-mode .slide-title {
+  font-size: 3.5rem;
+  margin-bottom: 3rem;
+}
+
+.player-view.fullscreen-mode .layout-text-content {
+  font-size: 1.8rem;
+}
+
+.player-view.fullscreen-mode .list-slide-item {
+  font-size: 1.6rem;
+  padding: 1.5rem 2.5rem;
+}
+
+.player-view.fullscreen-mode .grid-card-tools {
+  font-size: 1.25rem;
+}
+
+.player-view.fullscreen-mode .grid-card-desc {
+  font-size: 1.05rem;
+}
+
+.player-view.fullscreen-mode .prompt-sandbox {
+  max-height: 50vh;
+}
