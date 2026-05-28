@@ -69,6 +69,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if (decks[2] && typeof DECK_SEO_GEO_AIEO_MD !== "undefined") {
       decks[2].slides = parseMarkdownToSlides(DECK_SEO_GEO_AIEO_MD);
     }
+    if (decks[3] && typeof DECK_OFFICE_APPLICATIONS_MD !== "undefined") {
+      decks[3].slides = parseMarkdownToSlides(DECK_OFFICE_APPLICATIONS_MD);
+    }
+    if (decks[4] && typeof DECK_IMAGE_VIDEO_MD !== "undefined") {
+      decks[4].slides = parseMarkdownToSlides(DECK_IMAGE_VIDEO_MD);
+    }
 
     renderDecks();
     setupEventHandlers();

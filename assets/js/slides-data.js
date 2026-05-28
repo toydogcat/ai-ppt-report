@@ -29,5 +29,25 @@ const PRELOADED_DECKS = [
     date: "2026-05-28",
     tags: ["SEO", "GEO", "AIEO", "AI Search", "Traffic"],
     slides: []
+  },
+  {
+    id: "ai-office-applications-2026",
+    title: "AI 落地應用實務辦公室應用指南",
+    description: "從工具零散化走向自動化工作流與 Agent 協同的實戰部署。涵蓋 Copilot、n8n 自動化流程、私有知識庫 RAG 與智能體委派。",
+    category: "technology",
+    author: "Luna Office Team",
+    date: "2026-05-28",
+    tags: ["Office Automation", "n8n", "RAG", "Copilot"],
+    slides: []
+  },
+  {
+    id: "ai-image-video-2026",
+    title: "生圖 生影片 AI 應用指南",
+    description: "生產級視覺創作與一致性控制指南。掌握 Midjourney v7 與 Google Veo 3.1，精準鎖定角色與畫風不崩壞，並設計導演級運鏡。",
+    category: "technology",
+    author: "Luna Creative Team",
+    date: "2026-05-28",
+    tags: ["Image Gen", "Video Gen", "Consistency Control", "Veo 3.1"],
+    slides: []
   }
 ];
