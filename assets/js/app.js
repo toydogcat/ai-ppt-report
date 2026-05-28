@@ -105,6 +105,21 @@ document.addEventListener("DOMContentLoaded", () => {
     if (decks[5] && typeof DECK_MARKETING_IMAGE_MD !== "undefined") {
       decks[5].slides = parseMarkdownToSlides(DECK_MARKETING_IMAGE_MD);
     }
+    if (decks[6] && typeof DECK_VIBE_CODING_MD !== "undefined") {
+      decks[6].slides = parseMarkdownToSlides(DECK_VIBE_CODING_MD);
+    }
+    if (decks[7] && typeof DECK_N8N_MD !== "undefined") {
+      decks[7].slides = parseMarkdownToSlides(DECK_N8N_MD);
+    }
+    if (decks[8] && typeof DECK_OPENCLAW_MD !== "undefined") {
+      decks[8].slides = parseMarkdownToSlides(DECK_OPENCLAW_MD);
+    }
+    if (decks[9] && typeof DECK_HERMES_MD !== "undefined") {
+      decks[9].slides = parseMarkdownToSlides(DECK_HERMES_MD);
+    }
+    if (decks[10] && typeof DECK_NOTEBOOKLM_MD !== "undefined") {
+      decks[10].slides = parseMarkdownToSlides(DECK_NOTEBOOKLM_MD);
+    }
 
     renderDecks();
     setupEventHandlers();
