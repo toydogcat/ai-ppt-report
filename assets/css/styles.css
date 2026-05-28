@@ -1285,3 +1285,14 @@ body::after {
     bottom: 1rem;
   }
 }
+
+/* Inline code element design */
+code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  padding: 0.15rem 0.35rem;
+  color: var(--accent-cyan);
+}

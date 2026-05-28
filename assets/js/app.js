@@ -57,6 +57,33 @@ document.addEventListener("DOMContentLoaded", () => {
   const elToastText = document.getElementById("toast-text");
   const elLaserPointer = document.getElementById("laser-pointer");
 
+  // --- Inline Markdown Parser ---
+  function parseMarkdownInline(text) {
+    if (!text) return "";
+    // Handle inline code: `code`
+    let formatted = text.replace(/`(.*?)`/g, '<code>$1</code>');
+    // Handle bold: **bold**
+    formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    // Handle italic: *italic*
+    formatted = formatted.replace(/\*(.*?)\*/g, '<em>$1</em>');
+    return formatted;
+  }
+
+  // --- LaTeX Math Parser (KaTeX) ---
+  function renderMath(element) {
+    if (typeof renderMathInElement === "function") {
+      renderMathInElement(element, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ],
+        throwOnError: false
+      });
+    }
+  }
+
   // --- Initializer ---
   function init() {
     // Populate slides from modular Markdown strings dynamically on load
@@ -303,8 +330,8 @@ document.addEventListener("DOMContentLoaded", () => {
       layoutHtml = `
         <div class="slide-card layout-cover" id="active-slide-card">
           <div class="progress-line-container"><div class="progress-line-bar" style="width: ${progressPercent}%"></div></div>
-          <h1>${slide.title}</h1>
-          <p>${slide.subtitle.replace(/\n/g, "<br>")}</p>
+          <h1>${parseMarkdownInline(slide.title)}</h1>
+          <p>${parseMarkdownInline(slide.subtitle).replace(/\n/g, "<br>")}</p>
         </div>
       `;
     } else if (slide.layout === "grid") {
@@ -312,17 +339,17 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="grid-slide-card">
           <div class="grid-slide-card-header">
             <span class="grid-card-icon">${item.icon || '⚡'}</span>
-            <span class="grid-card-cat">${item.category}</span>
+            <span class="grid-card-cat">${parseMarkdownInline(item.category)}</span>
           </div>
-          <div class="grid-card-tools">${item.tools}</div>
-          <div class="grid-card-desc">${item.desc}</div>
+          <div class="grid-card-tools">${parseMarkdownInline(item.tools)}</div>
+          <div class="grid-card-desc">${parseMarkdownInline(item.desc)}</div>
         </div>
       `).join("");
       
       layoutHtml = `
         <div class="slide-card" id="active-slide-card">
           <div class="progress-line-container"><div class="progress-line-bar" style="width: ${progressPercent}%"></div></div>
-          <h2 class="slide-title">${slide.title}</h2>
+          <h2 class="slide-title">${parseMarkdownInline(slide.title)}</h2>
           <div class="layout-grid-container">
             ${gridItemsHtml}
           </div>
@@ -333,12 +360,12 @@ document.addEventListener("DOMContentLoaded", () => {
       layoutHtml = `
         <div class="slide-card" id="active-slide-card">
           <div class="progress-line-container"><div class="progress-line-bar" style="width: ${progressPercent}%"></div></div>
-          <h2 class="slide-title">${slide.title}</h2>
+          <h2 class="slide-title">${parseMarkdownInline(slide.title)}</h2>
           <div class="layout-split-container">
             <div class="split-left">
-              <div class="subtitle">${slide.subtitle}</div>
-              <div class="highlight">${slide.highlight}</div>
-              <div class="tools-tag">最佳實戰工具: <span>${slide.tools}</span></div>
+              <div class="subtitle">${parseMarkdownInline(slide.subtitle)}</div>
+              <div class="highlight">${parseMarkdownInline(slide.highlight)}</div>
+              <div class="tools-tag">最佳實戰工具: <span>${parseMarkdownInline(slide.tools)}</span></div>
             </div>
             <div class="prompt-sandbox">
               <div class="sandbox-header">
@@ -347,7 +374,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   <div class="sandbox-dot yellow"></div>
                   <div class="sandbox-dot green"></div>
                 </div>
-                <div class="sandbox-title">${codeHeader}</div>
+                <div class="sandbox-title">${parseMarkdownInline(codeHeader)}</div>
                 <button class="prompt-copy-btn" id="btn-copy-prompt">
                   <i data-lucide="copy" style="width:12px; height:12px;"></i>
                   複製 Prompt
@@ -362,14 +389,14 @@ document.addEventListener("DOMContentLoaded", () => {
       const itemsHtml = slide.items.map((item, index) => `
         <div class="list-slide-item">
           <div class="list-item-bullet">${index + 1}</div>
-          <div>${item}</div>
+          <div>${parseMarkdownInline(item)}</div>
         </div>
       `).join("");
       
       layoutHtml = `
         <div class="slide-card" id="active-slide-card">
           <div class="progress-line-container"><div class="progress-line-bar" style="width: ${progressPercent}%"></div></div>
-          <h2 class="slide-title">${slide.title}</h2>
+          <h2 class="slide-title">${parseMarkdownInline(slide.title)}</h2>
           <div class="layout-list-container">
             ${itemsHtml}
           </div>
@@ -377,13 +404,13 @@ document.addEventListener("DOMContentLoaded", () => {
       `;
     } else {
       // Default standard Text slide layout
-      const hBox = slide.highlight ? `<div class="highlight-box"><i data-lucide="info" style="width: 18px; height: 18px;"></i> ${slide.highlight}</div>` : "";
+      const hBox = slide.highlight ? `<div class="highlight-box"><i data-lucide="info" style="width: 18px; height: 18px;"></i> ${parseMarkdownInline(slide.highlight)}</div>` : "";
       layoutHtml = `
         <div class="slide-card layout-text" id="active-slide-card">
           <div class="progress-line-container"><div class="progress-line-bar" style="width: ${progressPercent}%"></div></div>
-          <h2 class="slide-title">${slide.title}</h2>
+          <h2 class="slide-title">${parseMarkdownInline(slide.title)}</h2>
           <div class="layout-text-content">
-            <p>${slide.content}</p>
+            <p>${parseMarkdownInline(slide.content)}</p>
             ${hBox}
           </div>
         </div>
@@ -402,6 +429,10 @@ document.addEventListener("DOMContentLoaded", () => {
       setTimeout(() => {
         elSlideContainer.innerHTML = layoutHtml;
         const newCard = elSlideContainer.firstElementChild;
+        
+        // Render LaTeX equations using KaTeX
+        renderMath(newCard);
+        
         newCard.classList.add(
           activeTransition === "slide" ? (lastDirection === "down" ? "slide-right-enter" : "slide-left-enter") : `transition-${activeTransition}-enter`
         );
@@ -437,6 +468,9 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       elSlideContainer.innerHTML = layoutHtml;
       const newCard = elSlideContainer.firstElementChild;
+      
+      // Render LaTeX equations using KaTeX
+      renderMath(newCard);
       
       const copyBtn = document.getElementById("btn-copy-prompt");
       if (copyBtn) {
