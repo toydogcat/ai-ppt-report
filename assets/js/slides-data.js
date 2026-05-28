@@ -59,5 +59,55 @@ const PRELOADED_DECKS = [
     date: "2026-05-28",
     tags: ["AI Image", "Marketing Design", "Midjourney", "E-commerce"],
     slides: []
+  },
+  {
+    id: "vibe-coding-2026",
+    title: "Vibe Coding 教學：AI First 開發新典範",
+    description: "專為現代開發者與產品經理設計的實戰課程。解析「Vibe Coding」的核心心法，從寫 Spec 到架構設計的完整指南。",
+    category: "technology",
+    author: "Luna Dev Team",
+    date: "2026-05-28",
+    tags: ["Vibe Coding", "AI First", "Cursor", "Prompt Engineering"],
+    slides: []
+  },
+  {
+    id: "n8n-automation-2026",
+    title: "n8n 教學：打造企業級無程式碼自動化工作流",
+    description: "串接萬物、整合 AI，打造你的 24 小時數位生產線。從基礎概念到進階 AI 節點應用的自動化實戰指南。",
+    category: "technology",
+    author: "Luna Automation",
+    date: "2026-05-28",
+    tags: ["n8n", "Automation", "No-Code", "AI Workflow"],
+    slides: []
+  },
+  {
+    id: "openclaw-agent-2026",
+    title: "OpenClaw (小龍蝦) AI Agent 教學",
+    description: "深度剖析 2026 年爆紅的開源自主智慧體「小龍蝦」！從原理架構到特殊應用場景，教你如何圈養一隻 24 小時工作的數位員工。",
+    category: "technology",
+    author: "Luna AI Labs",
+    date: "2026-05-28",
+    tags: ["OpenClaw", "AI Agent", "Autonomous", "Local LLM"],
+    slides: []
+  },
+  {
+    id: "hermes-agentic-rag-2026",
+    title: "Hermes Agentic RAG 教學",
+    description: "探討 Nous Hermes 模型的強大 Function Calling 能力，並以律師助手與智能客服為例，解析新一代 Agentic RAG 技術。",
+    category: "technology",
+    author: "Luna AI Labs",
+    date: "2026-05-28",
+    tags: ["Hermes", "Agentic RAG", "Function Calling", "NousResearch"],
+    slides: []
+  },
+  {
+    id: "notebooklm-guide-2026",
+    title: "NotebookLM 實戰教學：你的專屬第二大腦",
+    description: "從零開始解析 Google 的私有知識庫產品。學會使用 Source-Grounded 技術與語音導覽，徹底改變吸收資訊的速度。",
+    category: "technology",
+    author: "Luna Product Team",
+    date: "2026-05-28",
+    tags: ["NotebookLM", "Google", "RAG", "Knowledge Base", "Podcast"],
+    slides: []
   }
 ];
