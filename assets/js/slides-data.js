@@ -49,5 +49,15 @@ const PRELOADED_DECKS = [
     date: "2026-05-28",
     tags: ["Image Gen", "Video Gen", "Consistency Control", "Veo 3.1"],
     slides: []
+  },
+  {
+    id: "ai-marketing-image-2026",
+    title: "AI 生圖與改圖行銷實戰：賣書、賣課、賣食物的黃金 Prompt 密碼",
+    description: "專為網路行銷人員設計的 AI 視覺革命。零美術基礎也能產出爆款書籍封面、吸睛課程 Banner、以及令人垂涎的食物商品照，附真實 Prompt 範例與生圖原檔。",
+    category: "technology",
+    author: "Luna Marketing Lab",
+    date: "2026-05-28",
+    tags: ["AI Image", "Marketing Design", "Midjourney", "E-commerce"],
+    slides: []
   }
 ];

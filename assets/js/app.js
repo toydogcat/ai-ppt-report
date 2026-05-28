@@ -102,6 +102,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (decks[4] && typeof DECK_IMAGE_VIDEO_MD !== "undefined") {
       decks[4].slides = parseMarkdownToSlides(DECK_IMAGE_VIDEO_MD);
     }
+    if (decks[5] && typeof DECK_MARKETING_IMAGE_MD !== "undefined") {
+      decks[5].slides = parseMarkdownToSlides(DECK_MARKETING_IMAGE_MD);
+    }
 
     renderDecks();
     setupEventHandlers();
@@ -207,6 +210,12 @@ document.addEventListener("DOMContentLoaded", () => {
           else subtitle = line.replace("## ", "");
         } else if (line.startsWith("### ")) {
           subtitle = line.replace("### ", "");
+        } else if (line.includes("推薦 AI：") || line.includes("適用 AI：") || line.includes("適用工具：") || line.includes("**推薦 AI：**") || line.includes("**適用 AI：**") || line.includes("**適用工具：**") || line.includes("推薦 AI**")) {
+          let temp = line.replace(/^[\*\-\s]+/, "");
+          tools = temp.replace(/.*[：:]\s*/, "").replace(/\*+/g, "").trim();
+        } else if (line.includes("使用情境") || line.includes("適用情境")) {
+          let temp = line.replace(/^[\*\-\s]+/, "");
+          highlight = temp.replace(/.*[：:]\s*/, "").replace(/\*+/g, "").trim();
         } else if (line.startsWith("* ") || line.startsWith("- ")) {
           listItems.push(line.substring(2).trim());
         } else if (line.startsWith(">")) {
@@ -216,10 +225,6 @@ document.addEventListener("DOMContentLoaded", () => {
           if (cols.length > 0 && !cols[0].includes("---")) {
             tableRows.push(cols);
           }
-        } else if (line.includes("**適用 AI：**") || line.includes("推薦 AI：") || line.includes("推薦 AI**")) {
-          tools = line.split("：").pop().replace(/\*+/g, "").trim();
-        } else if (line.includes("使用情境") || line.includes("適用情境")) {
-          highlight = line.replace(/^\*\s?\*\*使用情境.*?\*\*|^\*\s?\*\*適用情境.*?\*\*/, "").trim();
         } else {
           content += line + "\n";
         }
@@ -268,6 +273,7 @@ document.addEventListener("DOMContentLoaded", () => {
           title: title || "深度工作流",
           subtitle: subtitle || "精準實戰場景",
           highlight: highlight || content.substring(0, 100).trim(),
+          content: content.trim(),
           tools: tools || "專屬 AI",
           prompt: prompt.trim()
         });
@@ -291,6 +297,120 @@ document.addEventListener("DOMContentLoaded", () => {
     return slides;
   }
 
+  // --- Render Mobile Scrolling Feed Reader ---
+  function renderMobileSlides() {
+    if (!activeDeck || activeDeck.slides.length === 0) return;
+    
+    // Hide controls on mobile reader
+    const elPlayerControls = document.getElementById("player-controls");
+    if (elPlayerControls) elPlayerControls.style.display = "none";
+    
+    // Build vertical list of all slides
+    let slidesHtml = activeDeck.slides.map((slide, index) => {
+      let layoutHtml = "";
+      
+      if (slide.layout === "cover") {
+        layoutHtml = `
+          <div class="slide-card layout-cover mobile-card" style="margin-bottom: 2rem; height: auto; aspect-ratio: auto; min-height: 220px;">
+            <div class="slide-badge">第 ${index + 1} 頁 / 共 ${activeDeck.slides.length} 頁</div>
+            <h1>${parseMarkdownInline(slide.title)}</h1>
+            <p>${parseMarkdownInline(slide.subtitle).replace(/\n/g, "<br>")}</p>
+          </div>
+        `;
+      } else if (slide.layout === "grid") {
+        const gridItemsHtml = slide.items.map(item => `
+          <div class="grid-slide-card">
+            <div class="grid-slide-card-header">
+              <span class="grid-card-icon">${item.icon || '⚡'}</span>
+              <span class="grid-card-cat">${parseMarkdownInline(item.category)}</span>
+            </div>
+            <div class="grid-card-tools">${parseMarkdownInline(item.tools)}</div>
+            <div class="grid-card-desc">${parseMarkdownInline(item.desc)}</div>
+          </div>
+        `).join("");
+        
+        layoutHtml = `
+          <div class="slide-card mobile-card" style="margin-bottom: 2rem; height: auto; aspect-ratio: auto;">
+            <div class="slide-badge">第 ${index + 1} 頁 / 共 ${activeDeck.slides.length} 頁</div>
+            <h2 class="slide-title">${parseMarkdownInline(slide.title)}</h2>
+            <div class="layout-grid-container" style="grid-template-columns: 1fr; max-height: none;">
+              ${gridItemsHtml}
+            </div>
+          </div>
+        `;
+      } else if (slide.layout === "split") {
+        const codeHeader = slide.tools ? `適用工具: ${slide.tools}` : "推薦系統 Prompt 參數";
+        layoutHtml = `
+          <div class="slide-card mobile-card" style="margin-bottom: 2rem; height: auto; aspect-ratio: auto;">
+            <div class="slide-badge">第 ${index + 1} 頁 / 共 ${activeDeck.slides.length} 頁</div>
+            <h2 class="slide-title">${parseMarkdownInline(slide.title)}</h2>
+            <div class="layout-split-container" style="grid-template-columns: 1fr; gap: 1.5rem;">
+              <div class="split-left">
+                <div class="subtitle">${parseMarkdownInline(slide.subtitle)}</div>
+                <div class="highlight">${parseMarkdownInline(slide.highlight)}</div>
+                ${slide.content ? `<div class="split-content-body">${slide.content}</div>` : ""}
+                <div class="tools-tag">最佳實戰工具: <span>${parseMarkdownInline(slide.tools)}</span></div>
+              </div>
+              <div class="prompt-sandbox" style="max-height: none;">
+                <div class="sandbox-header">
+                  <div class="sandbox-dots">
+                    <div class="sandbox-dot red"></div>
+                    <div class="sandbox-dot yellow"></div>
+                    <div class="sandbox-dot green"></div>
+                  </div>
+                  <div class="sandbox-title">${parseMarkdownInline(codeHeader)}</div>
+                  <button class="prompt-copy-btn" onclick="navigator.clipboard.writeText(this.nextElementSibling.textContent); alert('已複製 Prompt！');">
+                    複製 Prompt
+                  </button>
+                </div>
+                <div class="sandbox-body" style="height: auto; max-height: 250px; overflow-y: auto;">${slide.prompt}</div>
+              </div>
+            </div>
+          </div>
+        `;
+      } else if (slide.layout === "list") {
+        const itemsHtml = slide.items.map((item, idx) => `
+          <div class="list-slide-item" style="font-size: 1rem; padding: 0.8rem 1rem;">
+            <div class="list-item-bullet">${idx + 1}</div>
+            <div>${parseMarkdownInline(item)}</div>
+          </div>
+        `).join("");
+        
+        layoutHtml = `
+          <div class="slide-card mobile-card" style="margin-bottom: 2rem; height: auto; aspect-ratio: auto;">
+            <div class="slide-badge">第 ${index + 1} 頁 / 共 ${activeDeck.slides.length} 頁</div>
+            <h2 class="slide-title">${parseMarkdownInline(slide.title)}</h2>
+            <div class="layout-list-container">
+              ${itemsHtml}
+            </div>
+          </div>
+        `;
+      } else {
+        const hBox = slide.highlight ? `<div class="highlight-box" style="font-size: 1rem; padding: 1rem;"><i data-lucide="info" style="width: 18px; height: 18px;"></i> ${parseMarkdownInline(slide.highlight)}</div>` : "";
+        layoutHtml = `
+          <div class="slide-card layout-text mobile-card" style="margin-bottom: 2rem; height: auto; aspect-ratio: auto;">
+            <div class="slide-badge">第 ${index + 1} 頁 / 共 ${activeDeck.slides.length} 頁</div>
+            <h2 class="slide-title">${parseMarkdownInline(slide.title)}</h2>
+            <div class="layout-text-content" style="font-size: 1.05rem; line-height: 1.6;">
+              <p>${parseMarkdownInline(slide.content)}</p>
+              ${hBox}
+            </div>
+          </div>
+        `;
+      }
+      return layoutHtml;
+    }).join("");
+    
+    // Inject all slides vertically
+    elSlideContainer.innerHTML = `<div class="mobile-reader-flow" style="display: flex; flex-direction: column; width: 100%; height: auto; padding: 1rem 0 3rem;">${slidesHtml}</div>`;
+    
+    // Render math on the whole container
+    renderMath(elSlideContainer);
+    
+    // Render icons
+    lucide.createIcons();
+  }
+
   // --- Launch PPT Presentation Player ---
   function startPresentation(deck) {
     activeDeck = deck;
@@ -304,7 +424,17 @@ document.addEventListener("DOMContentLoaded", () => {
     isAutoplayActive = false;
     updateAutoplayIcon();
     
-    renderSlide();
+    // Check if on mobile view (width <= 768px)
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+      elPlayer.classList.add("mobile-reader");
+      renderMobileSlides();
+    } else {
+      elPlayer.classList.remove("mobile-reader");
+      const elPlayerControls = document.getElementById("player-controls");
+      if (elPlayerControls) elPlayerControls.style.display = "flex";
+      renderSlide();
+    }
     
     // Broadcast active presentation states to mother Luna Hub
     broadcastToParent("iframe_scroll", {
@@ -365,6 +495,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="split-left">
               <div class="subtitle">${parseMarkdownInline(slide.subtitle)}</div>
               <div class="highlight">${parseMarkdownInline(slide.highlight)}</div>
+              ${slide.content ? `<div class="split-content-body">${slide.content}</div>` : ""}
               <div class="tools-tag">最佳實戰工具: <span>${parseMarkdownInline(slide.tools)}</span></div>
             </div>
             <div class="prompt-sandbox">
@@ -553,6 +684,7 @@ document.addEventListener("DOMContentLoaded", () => {
       toggleAutoplay();
     }
     elPlayer.style.display = "none";
+    elPlayer.classList.remove("mobile-reader");
     activeDeck = null;
     
     // De-focus
