@@ -160,6 +160,8 @@ document.addEventListener("DOMContentLoaded", () => {
       "calculus-7-6-integration-tables": typeof DECK_CALCULUS_7_6_MD !== "undefined" ? DECK_CALCULUS_7_6_MD : null,
       "calculus-7-7-approximate-integration": typeof DECK_CALCULUS_7_7_MD !== "undefined" ? DECK_CALCULUS_7_7_MD : null,
       "calculus-7-8-improper-integrals": typeof DECK_CALCULUS_7_8_MD !== "undefined" ? DECK_CALCULUS_7_8_MD : null,
+      "calculus-8-1-arc-length":         typeof DECK_CALCULUS_8_1_MD !== "undefined" ? DECK_CALCULUS_8_1_MD : null,
+      "calculus-8-2-surface-area":       typeof DECK_CALCULUS_8_2_MD !== "undefined" ? DECK_CALCULUS_8_2_MD : null,
       "calculus-ch7-overview":           typeof DECK_CALCULUS_CH7_INTRO_MD !== "undefined" ? DECK_CALCULUS_CH7_INTRO_MD : null,
       "calculus-ch6-overview":           typeof DECK_CALCULUS_CH6_INTRO_MD !== "undefined" ? DECK_CALCULUS_CH6_INTRO_MD : null,
       "calculus-ch5-overview":           typeof DECK_CALCULUS_CH5_INTRO_MD !== "undefined" ? DECK_CALCULUS_CH5_INTRO_MD : null,
