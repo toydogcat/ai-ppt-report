@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let activeDeck = null;
   let activeSlideIndex = 0;
   let activeCategory = "all";
+  let activeSubCategory = "all";
   
   let autoplayTimer = null;
   let isAutoplayActive = false;
@@ -18,6 +19,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const elDecksGrid = document.getElementById("decks-grid");
   const elDecksPanel = document.getElementById("decks-panel");
   const elCreatorPanel = document.getElementById("creator-panel");
+  const elSubCategoryContainer = document.getElementById("sub-category-filters-container");
+  const elSubCategoryFilters = document.getElementById("sub-category-filters");
   
   const elTabDecks = document.getElementById("tab-decks");
   const elTabCreator = document.getElementById("tab-creator");
@@ -199,6 +202,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     renderDecks();
     setupCategoryFilters();
+    setupSubCategoryFilters();
     setupEventHandlers();
     lucide.createIcons();
     
@@ -208,15 +212,73 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- Hub Category Filters ---
   function setupCategoryFilters() {
-    const filterButtons = document.querySelectorAll(".filter-btn");
+    const filterButtons = document.querySelectorAll(".filter-btn:not(.sub-filter-btn)");
     filterButtons.forEach(btn => {
       btn.addEventListener("click", () => {
         filterButtons.forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
         
         activeCategory = btn.getAttribute("data-category");
+
+        // Handle sub-category container visibility
+        if (activeCategory === "calculus") {
+          elSubCategoryContainer.style.display = "flex";
+          activeSubCategory = "all";
+          updateSubCategoryActive();
+        } else {
+          if (elSubCategoryContainer) elSubCategoryContainer.style.display = "none";
+          activeSubCategory = "all";
+        }
+        
         renderDecks();
       });
+    });
+  }
+
+  // --- Hub Sub-category Filters (Calculus Chapters) ---
+  function setupSubCategoryFilters() {
+    if (!elSubCategoryFilters) return;
+
+    const chapters = [
+      { id: "all", label: "全部" },
+      { id: "calculus-ch1", label: "Ch1" },
+      { id: "calculus-ch2", label: "Ch2" },
+      { id: "calculus-ch3", label: "Ch3" },
+      { id: "calculus-ch4", label: "Ch4" },
+      { id: "calculus-ch5", label: "Ch5" },
+      { id: "calculus-ch6", label: "Ch6" },
+      { id: "calculus-ch7", label: "Ch7" },
+      { id: "calculus-ch8", label: "Ch8" },
+      { id: "calculus-ch9", label: "Ch9" },
+      { id: "calculus-ch10", label: "Ch10" }
+    ];
+
+    elSubCategoryFilters.innerHTML = chapters.map(ch => `
+      <button class="filter-btn sub-filter-btn ${ch.id === 'all' ? 'active' : ''}" data-sub-category="${ch.id}" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">
+        ${ch.label}
+      </button>
+    `).join("");
+
+    const subFilterBtns = elSubCategoryFilters.querySelectorAll(".sub-filter-btn");
+    subFilterBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        subFilterBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        activeSubCategory = btn.getAttribute("data-sub-category");
+        renderDecks();
+      });
+    });
+  }
+
+  function updateSubCategoryActive() {
+    if (!elSubCategoryFilters) return;
+    const subFilterBtns = elSubCategoryFilters.querySelectorAll(".sub-filter-btn");
+    subFilterBtns.forEach(btn => {
+      if (btn.getAttribute("data-sub-category") === activeSubCategory) {
+        btn.classList.add("active");
+      } else {
+        btn.classList.remove("active");
+      }
     });
   }
 
@@ -231,13 +293,27 @@ document.addEventListener("DOMContentLoaded", () => {
       "search-analytics": "搜尋與數據分析",
       "dev-tech": "開發與先進技術",
       "calculus": "微積分",
+      "calculus-ch1": "微積分 Ch1",
+      "calculus-ch2": "微積分 Ch2",
+      "calculus-ch3": "微積分 Ch3",
+      "calculus-ch4": "微積分 Ch4",
+      "calculus-ch5": "微積分 Ch5",
+      "calculus-ch6": "微積分 Ch6",
+      "calculus-ch7": "微積分 Ch7",
+      "calculus-ch8": "微積分 Ch8",
+      "calculus-ch9": "微積分 Ch9",
+      "calculus-ch10": "微積分 Ch10",
       "custom": "自訂簡報"
     };
     
-    // Filter decks by category
+    // Filter decks by category and sub-category
     const filteredDecks = activeCategory === "all"
       ? decks
-      : decks.filter(deck => deck.category === activeCategory);
+      : activeCategory === "calculus"
+        ? (activeSubCategory === "all" 
+            ? decks.filter(deck => deck.category.startsWith("calculus"))
+            : decks.filter(deck => deck.category === activeSubCategory))
+        : decks.filter(deck => deck.category === activeCategory);
       
     // Handle empty state gracefully
     if (filteredDecks.length === 0) {
