@@ -1135,13 +1135,13 @@ body::after {
 
 /* Dynamic Interactive Laser Pointer */
 .laser-pointer-trail {
-  position: fixed;
+  position: absolute;
   width: 1rem;
   height: 1rem;
   background: rgba(239, 68, 68, 0.6);
   border-radius: 9999px;
   pointer-events: none;
-  z-index: 1000;
+  z-index: 999999;
   transform: translate(-50%, -50%);
   filter: blur(2px);
   mix-blend-mode: screen;
