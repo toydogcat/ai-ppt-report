@@ -302,12 +302,28 @@ body::after {
   opacity: 0.8;
 }
 
-.deck-card.tech::before {
-  background: linear-gradient(to right, var(--accent-cyan), var(--accent-blue));
+.deck-card.ai-automation::before {
+  background: linear-gradient(to right, #ff007f, var(--accent-purple));
+}
+
+.deck-card.design-marketing::before {
+  background: linear-gradient(to right, #ec4899, var(--accent-cyan));
+}
+
+.deck-card.search-analytics::before {
+  background: linear-gradient(to right, var(--accent-emerald), var(--accent-blue));
+}
+
+.deck-card.dev-tech::before {
+  background: linear-gradient(to right, var(--accent-cyan), #8b5cf6);
+}
+
+.deck-card.calculus::before {
+  background: linear-gradient(to right, #34d399, #fbbf24);
 }
 
 .deck-card.custom::before {
-  background: linear-gradient(to right, var(--accent-emerald), var(--accent-cyan));
+  background: linear-gradient(to right, #f59e0b, #ec4899);
 }
 
 .deck-card:hover {
@@ -1297,6 +1313,24 @@ code {
   color: var(--accent-cyan);
 }
 
+pre {
+  background: rgba(10, 11, 24, 0.7) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 8px !important;
+  padding: 1.25rem !important;
+  margin: 1rem 0 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+  overflow-x: auto;
+}
+
+pre code {
+  white-space: pre !important;
+  display: block;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+}
+
 /* Mobile Reader styles for portrait view */
 .player-view.mobile-reader {
   overflow-y: auto !important;
@@ -1363,8 +1397,9 @@ code {
 .split-content-body {
   margin: 0.75rem 0;
   display: flex;
+  flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .split-content-body img {
@@ -1422,4 +1457,110 @@ code {
 
 .player-view.fullscreen-mode .prompt-sandbox {
   max-height: 50vh;
+}
+
+/* --- Category Filters Styling --- */
+.category-filters-container {
+  width: 100%;
+  margin-bottom: 2.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.category-filters {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 50px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+}
+
+.category-filters::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+.filter-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  padding: 0.6rem 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 50px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+}
+
+.filter-btn i, .filter-btn svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.3s ease;
+}
+
+.filter-btn:hover {
+  color: var(--text-color);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.filter-btn:hover i, .filter-btn:hover svg {
+  transform: rotate(15deg) scale(1.1);
+}
+
+.filter-btn.active {
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+  color: #ffffff;
+  box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);
+  font-weight: 600;
+}
+
+/* Empty Category Placeholder */
+.empty-category-placeholder {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 4.5rem 2rem;
+  background: rgba(255, 255, 255, 0.01);
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  backdrop-filter: blur(5px);
+  margin-top: 1rem;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.01);
+}
+
+.empty-category-placeholder .empty-icon {
+  margin-bottom: 1.25rem;
+  display: flex;
+  justify-content: center;
+}
+
+.empty-category-placeholder .empty-icon i, .empty-category-placeholder .empty-icon svg {
+  width: 48px;
+  height: 48px;
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+.empty-category-placeholder h3 {
+  font-size: 1.3rem;
+  color: var(--text-color);
+  margin-bottom: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.empty-category-placeholder p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  max-width: 500px;
+  margin: 0 auto;
+  line-height: 1.6;
 }

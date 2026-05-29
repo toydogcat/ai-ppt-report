@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let decks = [...PRELOADED_DECKS];
   let activeDeck = null;
   let activeSlideIndex = 0;
+  let activeCategory = "all";
   
   let autoplayTimer = null;
   let isAutoplayActive = false;
@@ -86,51 +87,42 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- Initializer ---
   function init() {
-    // Populate slides from modular Markdown strings dynamically on load
-    if (decks[0] && typeof DECK_AI_APPLICATIONS_MD !== "undefined") {
-      decks[0].slides = parseMarkdownToSlides(DECK_AI_APPLICATIONS_MD);
-    }
-    if (decks[1] && typeof DECK_UIUX_DESIGN_MD !== "undefined") {
-      decks[1].slides = parseMarkdownToSlides(DECK_UIUX_DESIGN_MD);
-    }
-    if (decks[2] && typeof DECK_SEO_GEO_AIEO_MD !== "undefined") {
-      decks[2].slides = parseMarkdownToSlides(DECK_SEO_GEO_AIEO_MD);
-    }
-    if (decks[3] && typeof DECK_OFFICE_APPLICATIONS_MD !== "undefined") {
-      decks[3].slides = parseMarkdownToSlides(DECK_OFFICE_APPLICATIONS_MD);
-    }
-    if (decks[4] && typeof DECK_IMAGE_VIDEO_MD !== "undefined") {
-      decks[4].slides = parseMarkdownToSlides(DECK_IMAGE_VIDEO_MD);
-    }
-    if (decks[5] && typeof DECK_MARKETING_IMAGE_MD !== "undefined") {
-      decks[5].slides = parseMarkdownToSlides(DECK_MARKETING_IMAGE_MD);
-    }
-    if (decks[6] && typeof DECK_VIBE_CODING_MD !== "undefined") {
-      decks[6].slides = parseMarkdownToSlides(DECK_VIBE_CODING_MD);
-    }
-    if (decks[7] && typeof DECK_N8N_MD !== "undefined") {
-      decks[7].slides = parseMarkdownToSlides(DECK_N8N_MD);
-    }
-    if (decks[8] && typeof DECK_OPENCLAW_MD !== "undefined") {
-      decks[8].slides = parseMarkdownToSlides(DECK_OPENCLAW_MD);
-    }
-    if (decks[9] && typeof DECK_HERMES_MD !== "undefined") {
-      decks[9].slides = parseMarkdownToSlides(DECK_HERMES_MD);
-    }
-    if (decks[10] && typeof DECK_NOTEBOOKLM_MD !== "undefined") {
-      decks[10].slides = parseMarkdownToSlides(DECK_NOTEBOOKLM_MD);
-    }
-    if (decks[11] && typeof DECK_PWA_MD !== "undefined") {
-      decks[11].slides = parseMarkdownToSlides(DECK_PWA_MD);
-    }
-    if (decks[12] && typeof DECK_FIREBASE_MD !== "undefined") {
-      decks[12].slides = parseMarkdownToSlides(DECK_FIREBASE_MD);
-    }
-    if (decks[13] && typeof DECK_AI_DATA_ANALYSIS_MD !== "undefined") {
-      decks[13].slides = parseMarkdownToSlides(DECK_AI_DATA_ANALYSIS_MD);
-    }
+    // Map: deck id → Markdown content variable name
+    const deckMdMap = {
+      "publishing-guide-2026":     typeof DECK_PUBLISHING_GUIDE_MD !== "undefined"    ? DECK_PUBLISHING_GUIDE_MD    : null,
+      "ai-applications-2026":      typeof DECK_AI_APPLICATIONS_MD !== "undefined"     ? DECK_AI_APPLICATIONS_MD     : null,
+      "uiux-design-thinking-2026": typeof DECK_UIUX_DESIGN_MD !== "undefined"         ? DECK_UIUX_DESIGN_MD         : null,
+      "seo-geo-aieo-2026":         typeof DECK_SEO_GEO_AIEO_MD !== "undefined"        ? DECK_SEO_GEO_AIEO_MD        : null,
+      "ai-office-applications-2026": typeof DECK_OFFICE_APPLICATIONS_MD !== "undefined" ? DECK_OFFICE_APPLICATIONS_MD : null,
+      "ai-image-video-2026":       typeof DECK_IMAGE_VIDEO_MD !== "undefined"         ? DECK_IMAGE_VIDEO_MD         : null,
+      "ai-marketing-image-2026":   typeof DECK_MARKETING_IMAGE_MD !== "undefined"     ? DECK_MARKETING_IMAGE_MD     : null,
+      "vibe-coding-2026":          typeof DECK_VIBE_CODING_MD !== "undefined"         ? DECK_VIBE_CODING_MD         : null,
+      "n8n-automation-2026":       typeof DECK_N8N_MD !== "undefined"                 ? DECK_N8N_MD                 : null,
+      "openclaw-agent-2026":       typeof DECK_OPENCLAW_MD !== "undefined"            ? DECK_OPENCLAW_MD            : null,
+      "hermes-agentic-rag-2026":   typeof DECK_HERMES_MD !== "undefined"              ? DECK_HERMES_MD              : null,
+      "notebooklm-guide-2026":     typeof DECK_NOTEBOOKLM_MD !== "undefined"         ? DECK_NOTEBOOKLM_MD         : null,
+      "pwa-tech-2026":             typeof DECK_PWA_MD !== "undefined"                 ? DECK_PWA_MD                 : null,
+      "firebase-ga4-2026":         typeof DECK_FIREBASE_MD !== "undefined"            ? DECK_FIREBASE_MD            : null,
+      "ai-data-analysis-2026":     typeof DECK_AI_DATA_ANALYSIS_MD !== "undefined"   ? DECK_AI_DATA_ANALYSIS_MD   : null,
+      "calculus-ch3-derivatives":  typeof DECK_CALCULUS_CH3_MD !== "undefined"        ? DECK_CALCULUS_CH3_MD        : null,
+      "calculus-4-1-area-distance": typeof DECK_CALCULUS_4_1_MD !== "undefined"      ? DECK_CALCULUS_4_1_MD       : null,
+      "calculus-4-2-definite-integral": typeof DECK_CALCULUS_4_2_MD !== "undefined"  ? DECK_CALCULUS_4_2_MD      : null,
+      "calculus-4-3-fundamental-theorem": typeof DECK_CALCULUS_4_3_MD !== "undefined" ? DECK_CALCULUS_4_3_MD     : null,
+      "calculus-4-4-indefinite-integral": typeof DECK_CALCULUS_4_4_MD !== "undefined" ? DECK_CALCULUS_4_4_MD     : null,
+      "calculus-4-5-substitution-rule":   typeof DECK_CALCULUS_4_5_MD !== "undefined" ? DECK_CALCULUS_4_5_MD     : null,
+      "calculus-ch4-integrals":    typeof DECK_CALCULUS_CH4_MD !== "undefined"        ? DECK_CALCULUS_CH4_MD        : null,
+    };
+
+    // Populate slides by matching deck id
+    decks.forEach(deck => {
+      const md = deckMdMap[deck.id];
+      if (md) {
+        deck.slides = parseMarkdownToSlides(md);
+      }
+    });
 
     renderDecks();
+    setupCategoryFilters();
     setupEventHandlers();
     lucide.createIcons();
     
@@ -138,19 +130,63 @@ document.addEventListener("DOMContentLoaded", () => {
     broadcastToParent("iframe_init", { url: window.location.href });
   }
 
+  // --- Hub Category Filters ---
+  function setupCategoryFilters() {
+    const filterButtons = document.querySelectorAll(".filter-btn");
+    filterButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        filterButtons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        
+        activeCategory = btn.getAttribute("data-category");
+        renderDecks();
+      });
+    });
+  }
+
   // --- Hub Dashboard Rendering ---
   function renderDecks() {
     elDecksGrid.innerHTML = "";
     
-    decks.forEach(deck => {
+    // Category display name mapping
+    const categoryNames = {
+      "ai-automation": "AI 智慧 & 自動化",
+      "design-marketing": "設計與行銷",
+      "search-analytics": "搜尋與數據分析",
+      "dev-tech": "開發與先進技術",
+      "calculus": "微積分",
+      "custom": "自訂簡報"
+    };
+    
+    // Filter decks by category
+    const filteredDecks = activeCategory === "all"
+      ? decks
+      : decks.filter(deck => deck.category === activeCategory);
+      
+    // Handle empty state gracefully
+    if (filteredDecks.length === 0) {
+      const emptyCard = document.createElement("div");
+      emptyCard.className = "empty-category-placeholder";
+      emptyCard.innerHTML = `
+        <div class="empty-icon"><i data-lucide="folder-open"></i></div>
+        <h3>尚未建立任何自訂簡報</h3>
+        <p>點擊右上角的「製作簡報」或前往「自訂 Markdown 生成」頁籤，貼上您的 Markdown，即可生成屬於您的華麗簡報！</p>
+      `;
+      elDecksGrid.appendChild(emptyCard);
+      lucide.createIcons({ attrs: { class: "lucide-icon-custom" } });
+      return;
+    }
+    
+    filteredDecks.forEach(deck => {
       const card = document.createElement("div");
       card.className = `deck-card ${deck.category || 'tech'}`;
       
       const tagString = deck.tags ? deck.tags.map(t => `<span class="deck-tag">${t}</span>`).join("") : "";
+      const displayCategory = categoryNames[deck.category] || "精選簡報";
       
       card.innerHTML = `
         <div class="deck-header">
-          <span class="deck-category">${deck.category === 'technology' ? '技術生態' : '自訂簡報'}</span>
+          <span class="deck-category">${displayCategory}</span>
           <span class="deck-slides-count">
             <i data-lucide="layers"></i>
             ${deck.slides.length} 頁
@@ -187,6 +223,11 @@ document.addEventListener("DOMContentLoaded", () => {
       elTabCreator.classList.add("active");
       elDecksPanel.style.display = "none";
       elCreatorPanel.style.display = "block";
+    }
+    
+    // Refresh Vercount statistics if available (as per developer guide)
+    if (window.vercount && typeof window.vercount.fetch === "function") {
+      window.vercount.fetch();
     }
   }
 
@@ -465,6 +506,11 @@ document.addEventListener("DOMContentLoaded", () => {
       scrollY: 0,
       direction: "up"
     });
+
+    // Refresh Vercount statistics (as per developer guide)
+    if (window.vercount && typeof window.vercount.fetch === "function") {
+      window.vercount.fetch();
+    }
   }
 
   // --- Render Current Slide on Stage ---
@@ -710,7 +756,12 @@ document.addEventListener("DOMContentLoaded", () => {
     elPlayer.style.display = "none";
     elPlayer.classList.remove("mobile-reader");
     activeDeck = null;
-    
+
+    // Refresh Vercount statistics
+    if (window.vercount && typeof window.vercount.fetch === "function") {
+      window.vercount.fetch();
+    }
+
     // De-focus
     document.body.focus();
   }

@@ -64,6 +64,34 @@
 
       <!-- DECKS GALLERY PANEL -->
       <section class="decks-view" id="decks-panel">
+        
+        <!-- Premium Category Filters -->
+        <div class="category-filters-container">
+          <div class="category-filters" id="category-filters">
+            <button class="filter-btn active" data-category="all">
+              <i data-lucide="grid"></i>全部簡報
+            </button>
+            <button class="filter-btn" data-category="ai-automation">
+              <i data-lucide="cpu"></i>AI 智慧 & 自動化
+            </button>
+            <button class="filter-btn" data-category="design-marketing">
+              <i data-lucide="palette"></i>設計與行銷
+            </button>
+            <button class="filter-btn" data-category="search-analytics">
+              <i data-lucide="bar-chart-2"></i>搜尋與數據分析
+            </button>
+            <button class="filter-btn" data-category="dev-tech">
+              <i data-lucide="code"></i>開發與先進技術
+            </button>
+            <button class="filter-btn" data-category="calculus">
+              <i data-lucide="sigma"></i>微積分
+            </button>
+            <button class="filter-btn" data-category="custom">
+              <i data-lucide="folder-heart"></i>自訂簡報
+            </button>
+          </div>
+        </div>
+
         <div class="decks-grid" id="decks-grid">
           <!-- Dynamically populated cards will be placed here -->
         </div>
@@ -99,6 +127,15 @@
           </button>
         </div>
       </section>
+
+      <!-- Vercount.one Traffic Statistics -->
+      <footer class="hub-footer" style="margin-top: 5rem; padding: 2rem 0; border-top: 1px solid var(--glass-border); text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+        <div class="stats-container" style="display: flex; justify-content: center; gap: 2rem; margin-bottom: 1rem;">
+          <span class="stat-item"><i data-lucide="eye" style="width:14px; height:14px; vertical-align:middle; margin-right:4px;"></i>全站總瀏覽量: <span id="vercount_value_site_pv" style="color: var(--primary-color); font-weight: 600;">--</span> 次</span>
+          <span class="stat-item"><i data-lucide="users" style="width:14px; height:14px; vertical-align:middle; margin-right:4px;"></i>全站獨立訪客: <span id="vercount_value_site_uv" style="color: var(--secondary-color); font-weight: 600;">--</span> 人</span>
+        </div>
+        <p>&copy; 2026 Luna AI PPT Presentation Hub. All Rights Reserved.</p>
+      </footer>
 
     </main>
 
@@ -227,6 +264,7 @@
   </div>
 
   <!-- App Core Logics scripts -->
+  <script src="assets/js/deck-publishing-guide.js"></script>
   <script src="assets/js/deck-ai-applications.js"></script>
   <script src="assets/js/deck-uiux-design.js"></script>
   <script src="assets/js/deck-seo-geo-aieo.js"></script>
@@ -241,6 +279,13 @@
   <script src="assets/js/deck-pwa.js"></script>
   <script src="assets/js/deck-firebase.js"></script>
   <script src="assets/js/deck-ai-data-analysis.js"></script>
+  <script src="assets/js/calculus/deck-calculus-ch3.js"></script>
+  <script src="assets/js/calculus/deck-calculus-4-1.js"></script>
+  <script src="assets/js/calculus/deck-calculus-4-2.js"></script>
+  <script src="assets/js/calculus/deck-calculus-4-3.js"></script>
+  <script src="assets/js/calculus/deck-calculus-4-4.js"></script>
+  <script src="assets/js/calculus/deck-calculus-4-5.js"></script>
+  <script src="assets/js/calculus/deck-calculus-ch4.js"></script>
   <script src="assets/js/slides-data.js"></script>
   <script src="assets/js/app.js"></script>
 </body>
