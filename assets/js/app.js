@@ -177,6 +177,15 @@ document.addEventListener("DOMContentLoaded", () => {
       "calculus-9-6-predator-prey":     typeof DECK_CALCULUS_9_6_MD !== "undefined" ? DECK_CALCULUS_9_6_MD : null,
       "calculus-ch9-overview":           typeof DECK_CALCULUS_CH9_INTRO_MD !== "undefined" ? DECK_CALCULUS_CH9_INTRO_MD : null,
       "calculus-ch10-overview":          typeof DECK_CALCULUS_CH10_INTRO_MD !== "undefined" ? DECK_CALCULUS_CH10_INTRO_MD : null,
+      "calculus-11-1-sequences":        typeof DECK_CALCULUS_11_1_MD !== "undefined" ? DECK_CALCULUS_11_1_MD : null,
+      "calculus-11-2-series":           typeof DECK_CALCULUS_11_2_MD !== "undefined" ? DECK_CALCULUS_11_2_MD : null,
+      "calculus-11-3-integral-test":    typeof DECK_CALCULUS_11_3_MD !== "undefined" ? DECK_CALCULUS_11_3_MD : null,
+      "calculus-11-4-comparison-test":  typeof DECK_CALCULUS_11_4_MD !== "undefined" ? DECK_CALCULUS_11_4_MD : null,
+      "calculus-11-5-absolute-conv":    typeof DECK_CALCULUS_11_5_MD !== "undefined" ? DECK_CALCULUS_11_5_MD : null,
+      "calculus-11-6-ratio-root-test":  typeof DECK_CALCULUS_11_6_MD !== "undefined" ? DECK_CALCULUS_11_6_MD : null,
+      "calculus-11-7-testing-strategy": typeof DECK_CALCULUS_11_7_MD !== "undefined" ? DECK_CALCULUS_11_7_MD : null,
+      "calculus-11-8-power-series":     typeof DECK_CALCULUS_11_8_MD !== "undefined" ? DECK_CALCULUS_11_8_MD : null,
+      "calculus-11-9-function-series":  typeof DECK_CALCULUS_11_9_MD !== "undefined" ? DECK_CALCULUS_11_9_MD : null,
       "calculus-10-1-parametric-curves": typeof DECK_CALCULUS_10_1_MD !== "undefined" ? DECK_CALCULUS_10_1_MD : null,
       "calculus-10-2-parametric-calc":   typeof DECK_CALCULUS_10_2_MD !== "undefined" ? DECK_CALCULUS_10_2_MD : null,
       "calculus-10-3-polar-coords":      typeof DECK_CALCULUS_10_3_MD !== "undefined" ? DECK_CALCULUS_10_3_MD : null,
@@ -250,7 +259,8 @@ document.addEventListener("DOMContentLoaded", () => {
       { id: "calculus-ch7", label: "Ch7" },
       { id: "calculus-ch8", label: "Ch8" },
       { id: "calculus-ch9", label: "Ch9" },
-      { id: "calculus-ch10", label: "Ch10" }
+      { id: "calculus-ch10", label: "Ch10" },
+      { id: "calculus-ch11", label: "Ch11" }
     ];
 
     elSubCategoryFilters.innerHTML = chapters.map(ch => `
@@ -303,6 +313,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "calculus-ch8": "微積分 Ch8",
       "calculus-ch9": "微積分 Ch9",
       "calculus-ch10": "微積分 Ch10",
+      "calculus-ch11": "微積分 Ch11",
       "custom": "自訂簡報"
     };
     
