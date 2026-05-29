@@ -1307,10 +1307,14 @@ document.addEventListener("DOMContentLoaded", () => {
     let touchendX = 0;
     
     document.addEventListener('touchstart', e => {
+      // 💡 如果觸摸是在雷射筆觸控板內，則忽視此滑動手勢，避免誤觸翻頁！
+      if (e.target.closest('#mobile-laser-touchpad')) return;
       touchstartX = e.changedTouches[0].screenX;
     }, false);
     
     document.addEventListener('touchend', e => {
+      // 💡 如果觸摸是在雷射筆觸控板內，則忽視此滑動手勢，避免誤觸翻頁！
+      if (e.target.closest('#mobile-laser-touchpad')) return;
       touchendX = e.changedTouches[0].screenX;
       handleGesture();
     }, false);
@@ -1382,6 +1386,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (elTouchpad) {
       elTouchpad.addEventListener("touchstart", (e) => {
+        e.stopPropagation();
         elTouchpad.classList.add("active");
         elTouchpadStatus.textContent = "🔴 雷射筆同步中...";
         elTouchpadStatus.style.color = "#ff0055";
@@ -1389,9 +1394,20 @@ document.addEventListener("DOMContentLoaded", () => {
         handleTouchpadMove(e);
       }, { passive: false });
 
-      elTouchpad.addEventListener("touchmove", handleTouchpadMove, { passive: false });
-      elTouchpad.addEventListener("touchend", handleTouchpadEnd);
-      elTouchpad.addEventListener("touchcancel", handleTouchpadEnd);
+      elTouchpad.addEventListener("touchmove", (e) => {
+        e.stopPropagation();
+        handleTouchpadMove(e);
+      }, { passive: false });
+
+      elTouchpad.addEventListener("touchend", (e) => {
+        e.stopPropagation();
+        handleTouchpadEnd();
+      });
+
+      elTouchpad.addEventListener("touchcancel", (e) => {
+        e.stopPropagation();
+        handleTouchpadEnd();
+      });
     }
   }
 
