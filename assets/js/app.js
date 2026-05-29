@@ -136,6 +136,12 @@ document.addEventListener("DOMContentLoaded", () => {
       "calculus-4-3-fundamental-theorem": typeof DECK_CALCULUS_4_3_MD !== "undefined" ? DECK_CALCULUS_4_3_MD     : null,
       "calculus-4-4-indefinite-integral": typeof DECK_CALCULUS_4_4_MD !== "undefined" ? DECK_CALCULUS_4_4_MD     : null,
       "calculus-4-5-substitution-rule":   typeof DECK_CALCULUS_4_5_MD !== "undefined" ? DECK_CALCULUS_4_5_MD     : null,
+      "calculus-5-1-areas-between-curves": typeof DECK_CALCULUS_5_1_MD !== "undefined" ? DECK_CALCULUS_5_1_MD   : null,
+      "calculus-5-2-volumes":           typeof DECK_CALCULUS_5_2_MD !== "undefined" ? DECK_CALCULUS_5_2_MD   : null,
+      "calculus-5-3-cylindrical-shells": typeof DECK_CALCULUS_5_3_MD !== "undefined" ? DECK_CALCULUS_5_3_MD  : null,
+      "calculus-5-4-work":               typeof DECK_CALCULUS_5_4_MD !== "undefined" ? DECK_CALCULUS_5_4_MD  : null,
+      "calculus-5-5-average-value":      typeof DECK_CALCULUS_5_5_MD !== "undefined" ? DECK_CALCULUS_5_5_MD  : null,
+      "calculus-ch5-overview":           typeof DECK_CALCULUS_CH5_INTRO_MD !== "undefined" ? DECK_CALCULUS_CH5_INTRO_MD : null,
       "calculus-ch4-overview":           typeof DECK_CALCULUS_CH4_INTRO_MD !== "undefined" ? DECK_CALCULUS_CH4_INTRO_MD : null,
     };
 
