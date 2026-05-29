@@ -212,6 +212,9 @@
       <div class="control-divider"></div>
 
       <div class="control-group">
+        <button class="control-btn" id="btn-remote-control" title="手機遙控播放 (R)">
+          <i data-lucide="smartphone"></i>
+        </button>
         <button class="control-btn" id="btn-toggle-laser" title="雷射筆工具 (L)">
           <i data-lucide="target"></i>
         </button>
@@ -375,6 +378,8 @@
   <script src="assets/js/calculus/deck-calculus-11-9.js"></script>
   <script src="assets/js/calculus/deck-calculus-ch6-intro.js"></script>
   <script src="assets/js/calculus/deck-calculus-ch4-intro.js"></script>
+  <script src="assets/js/mqtt.min.js"></script>
+  <script src="assets/js/qrcode.min.js"></script>
   <script src="assets/js/slides-data.js"></script>
   <!-- 微積分各章節 Metadata -->
   <script src="assets/js/calculus/slides-calculus-ch1.js"></script>
@@ -389,5 +394,70 @@
   <script src="assets/js/calculus/slides-calculus-ch10.js"></script>
   <script src="assets/js/calculus/slides-calculus-ch11.js"></script>
   <script src="assets/js/app.js"></script>
+
+  <!-- 手機遙控配對 Modal -->
+  <div id="remote-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-content glassmorphism">
+      <button class="modal-close-btn" id="close-remote-modal-btn">&times;</button>
+      <h2 class="modal-title">📱 手機智慧搖控</h2>
+      <p class="modal-desc">用手機直接控制電腦投影片播放，支援按鍵與左右滑動切換！</p>
+      
+      <div class="qr-container-wrapper">
+        <div id="remote-qrcode" class="qr-box"></div>
+      </div>
+      
+      <div class="connection-status-box">
+        <div class="status-indicator-dot red" id="connection-indicator"></div>
+        <span class="status-text" id="connection-status-text">等待手機掃碼...</span>
+      </div>
+      
+      <div class="manual-code-box">
+        <span class="code-label">房間配對碼：</span>
+        <span class="code-value" id="room-code-display">------</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 手機遙控器滿版面板 (預設隱藏) -->
+  <div id="mobile-controller-panel" style="display: none;">
+    <div class="mobile-header">
+      <div class="mobile-logo">LUNA AI PPT</div>
+      <div class="mobile-indicator">
+        <div class="status-indicator-dot green" id="mobile-indicator-dot"></div>
+        <span class="status-text" id="mobile-indicator-text">已成功連接電腦端</span>
+      </div>
+    </div>
+    
+    <div class="mobile-body">
+      <div class="current-slide-info">
+        <h3 id="mobile-slide-title">載入中...</h3>
+        <p class="slide-pages-number" id="mobile-page-text">Slide - / -</p>
+        <div class="mobile-progress-bar-container">
+          <div class="mobile-progress-bar" id="mobile-progress" style="width: 0%;"></div>
+        </div>
+      </div>
+      
+      <!-- 超大觸控按鈕區 -->
+      <div class="mobile-control-buttons">
+        <button class="mobile-btn prev-btn" id="mobile-prev-btn">
+          <div class="btn-icon">⬅️</div>
+          <span class="btn-label">上一頁</span>
+        </button>
+        
+        <button class="mobile-btn next-btn" id="mobile-next-btn">
+          <div class="btn-icon">➡️</div>
+          <span class="btn-label">下一頁</span>
+        </button>
+      </div>
+      
+      <div class="mobile-gesture-hint">
+        💡 提示：在畫面上「向左滑」下一頁，「向右滑」上一頁
+      </div>
+    </div>
+    
+    <div class="mobile-footer">
+      <button class="mobile-disconnect-btn" id="mobile-disconnect-btn">斷開連接</button>
+    </div>
+  </div>
 </body>
 </html>

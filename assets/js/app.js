@@ -15,6 +15,12 @@ document.addEventListener("DOMContentLoaded", () => {
   let lastDirection = "down";
   let activeTransition = "flip-3d";
   
+  // --- Remote Control MQTT State ---
+  let mqttClient = null;
+  let remoteRoomId = null;
+  let isRemoteConnected = false;
+  let isMobileControllerMode = false;
+
   // --- DOM Elements Cache ---
   const elDecksGrid = document.getElementById("decks-grid");
   const elDecksPanel = document.getElementById("decks-panel");
@@ -90,6 +96,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- Initializer ---
   function init() {
+    // 偵測是否為手機遙控器模式
+    const urlParams = new URLSearchParams(window.location.search);
+    const roomIdParam = urlParams.get("room");
+    
+    if (roomIdParam) {
+      isMobileControllerMode = true;
+      initMobileController(roomIdParam);
+      return;
+    }
+
     // Map: deck id → Markdown content variable name
     const deckMdMap = {
       "publishing-guide-2026":     typeof DECK_PUBLISHING_GUIDE_MD !== "undefined"    ? DECK_PUBLISHING_GUIDE_MD    : null,
@@ -850,6 +866,9 @@ document.addEventListener("DOMContentLoaded", () => {
       
       lucide.createIcons();
     }
+
+    // 同步狀態至手機遙控端
+    sendSlideStatusToRemote();
   }
 
   // --- Copy Prompt to Clipboard Action ---
@@ -1004,6 +1023,9 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if (key === "p") {
       e.preventDefault();
       toggleAutoplay();
+    } else if (key === "r") {
+      e.preventDefault();
+      startComputerBroadcaster();
     } else if (e.key === "?") {
       e.preventDefault();
       toggleShortcutsModal();
@@ -1169,6 +1191,249 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // ==========================================================================
+  // 📱 手機智慧搖控通訊核心 (MQTT Core)
+  // ==========================================================================
+
+  // --- 手機遙控器端邏輯 ---
+  function initMobileController(roomId) {
+    remoteRoomId = roomId;
+    
+    // 顯示手機遙控面板
+    document.getElementById("mobile-controller-panel").style.display = "flex";
+    
+    // 隱藏 PC 端首頁主區域與播放器
+    const elHubHeader = document.querySelector(".hub-header");
+    if (elHubHeader) elHubHeader.style.display = "none";
+    const elHubMain = document.querySelector(".hub-main");
+    if (elHubMain) elHubMain.style.display = "none";
+    const elPptPlayer = document.getElementById("ppt-player");
+    if (elPptPlayer) elPptPlayer.style.display = "none";
+    
+    const elStatusDot = document.getElementById("mobile-indicator-dot");
+    const elStatusText = document.getElementById("mobile-indicator-text");
+    const elSlideTitle = document.getElementById("mobile-slide-title");
+    const elPageText = document.getElementById("mobile-page-text");
+    const elProgress = document.getElementById("mobile-progress");
+    
+    elStatusDot.className = "status-indicator-dot red";
+    elStatusText.textContent = "正在連線電腦...";
+    elSlideTitle.textContent = "連線中，請稍候...";
+    
+    // 連線至公共 WSS EMQX Broker
+    const brokerUrl = "wss://broker.emqx.io:8084/mqtt";
+    const clientId = "luna_mobile_" + Math.random().toString(16).substr(2, 8);
+    
+    try {
+      mqttClient = mqtt.connect(brokerUrl, {
+        clientId: clientId,
+        clean: true,
+        connectTimeout: 4000,
+        reconnectPeriod: 2000
+      });
+      
+      mqttClient.on("connect", () => {
+        elStatusDot.className = "status-indicator-dot green";
+        elStatusText.textContent = "已連線至簡報";
+        elSlideTitle.textContent = "等待電腦端選擇並放映投影片...";
+        
+        // 訂閱狀態更新主題
+        mqttClient.subscribe(`luna/ppt/${roomId}/status`, (err) => {
+          if (err) console.error("Subscribe status error:", err);
+        });
+        
+        // 發送一個 "hello" 握手信號給電腦端
+        mqttClient.publish(`luna/ppt/${roomId}/cmd`, "hello");
+      });
+      
+      mqttClient.on("message", (topic, message) => {
+        if (topic === `luna/ppt/${roomId}/status`) {
+          try {
+            const status = JSON.parse(message.toString());
+            elSlideTitle.textContent = status.title || "簡報放映中";
+            elPageText.textContent = `Slide ${status.current} / ${status.total}`;
+            const pct = (status.current / status.total) * 100;
+            elProgress.style.width = `${pct}%`;
+          } catch (e) {
+            console.error("Parse status JSON error", e);
+          }
+        }
+      });
+      
+      mqttClient.on("error", (err) => {
+        console.error("MQTT Mobile Client Error:", err);
+        elStatusDot.className = "status-indicator-dot red";
+        elStatusText.textContent = "連線發生錯誤";
+      });
+      
+      mqttClient.on("close", () => {
+        elStatusDot.className = "status-indicator-dot red";
+        elStatusText.textContent = "連線已中斷";
+      });
+      
+    } catch (err) {
+      console.error("Init MQTT error", err);
+      elSlideTitle.textContent = "連線服務初始化失敗";
+    }
+    
+    // 綁定按鈕點擊，發送指令，且提供觸控震動回饋！
+    function sendCommand(cmd) {
+      if (mqttClient && mqttClient.connected) {
+        mqttClient.publish(`luna/ppt/${roomId}/cmd`, cmd);
+        // HTML5 Vibrate API (震動 15ms)
+        if (navigator.vibrate) {
+          navigator.vibrate(15);
+        }
+      } else {
+        alert("尚未成功連接電腦，請重新掃碼連線。");
+      }
+    }
+    
+    document.getElementById("mobile-prev-btn").addEventListener("click", () => sendCommand("prev"));
+    document.getElementById("mobile-next-btn").addEventListener("click", () => sendCommand("next"));
+    
+    // 斷開連接按鈕
+    document.getElementById("mobile-disconnect-btn").addEventListener("click", () => {
+      if (mqttClient) {
+        mqttClient.end();
+      }
+      // 清除 url 回到首頁
+      window.location.href = window.location.origin + window.location.pathname;
+    });
+    
+    // 💡 左右滑動手勢支援 (Mobile Gestures)
+    let touchstartX = 0;
+    let touchendX = 0;
+    
+    document.addEventListener('touchstart', e => {
+      touchstartX = e.changedTouches[0].screenX;
+    }, false);
+    
+    document.addEventListener('touchend', e => {
+      touchendX = e.changedTouches[0].screenX;
+      handleGesture();
+    }, false);
+    
+    function handleGesture() {
+      const threshold = 50; // 滑動閾值 (pixel)
+      if (touchendX < touchstartX - threshold) {
+        sendCommand("next");
+      }
+      if (touchendX > touchstartX + threshold) {
+        sendCommand("prev");
+      }
+    }
+  }
+
+  // --- 電腦端遙控發送器邏輯 ---
+  function startComputerBroadcaster() {
+    const elModal = document.getElementById("remote-modal");
+    const elQrContainer = document.getElementById("remote-qrcode");
+    const elIndicator = document.getElementById("connection-indicator");
+    const elStatusText = document.getElementById("connection-status-text");
+    const elRoomCode = document.getElementById("room-code-display");
+    
+    // 如果已經連線，則僅顯示 Modal，不重新建立連線
+    if (mqttClient && mqttClient.connected) {
+      elModal.style.display = "flex";
+      return;
+    }
+    
+    // 產生隨機房間配對碼 (6位數)
+    remoteRoomId = Math.floor(100000 + Math.random() * 900000).toString();
+    elRoomCode.textContent = remoteRoomId;
+    
+    elQrContainer.innerHTML = "";
+    elIndicator.className = "status-indicator-dot red";
+    elStatusText.textContent = "等待手機掃碼...";
+    
+    // 生成手機端控制網址
+    const remoteUrl = window.location.origin + window.location.pathname + "?room=" + remoteRoomId;
+    
+    // 使用 qrcode.js 動態渲染 QR Code (純前端，無 API 依賴)
+    new QRCode(elQrContainer, {
+      text: remoteUrl,
+      width: 180,
+      height: 180,
+      colorDark: "#000000",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.M
+    });
+    
+    // 顯示 Modal
+    elModal.style.display = "flex";
+    
+    // 連線至公共 WSS EMQX Broker
+    const brokerUrl = "wss://broker.emqx.io:8084/mqtt";
+    const clientId = "luna_pc_" + Math.random().toString(16).substr(2, 8);
+    
+    try {
+      mqttClient = mqtt.connect(brokerUrl, {
+        clientId: clientId,
+        clean: true,
+        connectTimeout: 4000,
+        reconnectPeriod: 2000
+      });
+      
+      mqttClient.on("connect", () => {
+        // 訂閱來自手機端的指令
+        mqttClient.subscribe(`luna/ppt/${remoteRoomId}/cmd`, (err) => {
+          if (err) console.error("Subscribe command error:", err);
+        });
+        
+        // 如果此時簡報是開啟狀態，主動發送一次當前狀態
+        sendSlideStatusToRemote();
+      });
+      
+      mqttClient.on("message", (topic, message) => {
+        const cmd = message.toString();
+        
+        if (topic === `luna/ppt/${remoteRoomId}/cmd`) {
+          // 狀態變為已連接！
+          elIndicator.className = "status-indicator-dot green";
+          elStatusText.textContent = "手機已連接！";
+          
+          if (cmd === "hello") {
+            // 手機剛連上，主動給手機發一次目前播放的簡報資訊
+            sendSlideStatusToRemote();
+            showToast("📱 手機遙控器已連線！");
+            
+            // 2 秒後自動隱藏 Modal，讓使用者舒服地開始看簡報！
+            setTimeout(() => {
+              elModal.style.display = "none";
+            }, 1800);
+          } else if (cmd === "next") {
+            nextSlide();
+          } else if (cmd === "prev") {
+            prevSlide();
+          }
+        }
+      });
+      
+      mqttClient.on("error", (err) => {
+        console.error("MQTT PC Client Error:", err);
+        elIndicator.className = "status-indicator-dot red";
+        elStatusText.textContent = "連線失敗，請重試";
+      });
+      
+    } catch (e) {
+      console.error("Init PC MQTT error", e);
+    }
+  }
+
+  // --- 發送當前簡報狀態給手機端 ---
+  function sendSlideStatusToRemote() {
+    if (!mqttClient || !mqttClient.connected || !remoteRoomId || !activeDeck) return;
+    
+    const statusPayload = JSON.stringify({
+      title: activeDeck.title,
+      current: activeSlideIndex + 1,
+      total: activeDeck.slides.length
+    });
+    
+    mqttClient.publish(`luna/ppt/${remoteRoomId}/status`, statusPayload, { retain: true });
+  }
+
   // --- Setup Event Listeners ---
   function setupEventHandlers() {
     // Header Links
@@ -1226,6 +1491,25 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     
     // Extra tools
+    const elBtnRemoteControl = document.getElementById("btn-remote-control");
+    if (elBtnRemoteControl) {
+      elBtnRemoteControl.addEventListener("click", startComputerBroadcaster);
+    }
+    
+    const elCloseRemoteModalBtn = document.getElementById("close-remote-modal-btn");
+    if (elCloseRemoteModalBtn) {
+      elCloseRemoteModalBtn.addEventListener("click", () => {
+        document.getElementById("remote-modal").style.display = "none";
+      });
+    }
+    
+    const elRemoteModal = document.getElementById("remote-modal");
+    if (elRemoteModal) {
+      elRemoteModal.addEventListener("click", (e) => {
+        if (e.target === elRemoteModal) elRemoteModal.style.display = "none";
+      });
+    }
+
     elBtnToggleLaser.addEventListener("click", toggleLaserPointer);
     elBtnToggleFullscreen.addEventListener("click", toggleFullscreen);
     elBtnShowShortcuts.addEventListener("click", toggleShortcutsModal);
