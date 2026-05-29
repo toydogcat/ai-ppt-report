@@ -1323,6 +1323,75 @@ document.addEventListener("DOMContentLoaded", () => {
         sendCommand("prev");
       }
     }
+    
+    // 🔴 虛擬雷射筆觸控板核心邏輯
+    const elTouchpad = document.getElementById("mobile-laser-touchpad");
+    const elTouchpadDot = document.getElementById("touchpad-dot");
+    const elTouchpadStatus = document.getElementById("touchpad-status-text");
+    const elTouchpadHint = document.getElementById("touchpad-hint-text");
+    let lastLaserTime = 0;
+
+    function handleTouchpadMove(e) {
+      // 阻止默認滾動行為，確保拖曳時手機頁面不會隨之滑動
+      e.preventDefault();
+      
+      const rect = elTouchpad.getBoundingClientRect();
+      const touch = e.touches[0];
+      
+      // 計算手指在觸控板內部的百分比坐標 (限制在 0 ~ 1)
+      let xRatio = (touch.clientX - rect.left) / rect.width;
+      let yRatio = (touch.clientY - rect.top) / rect.height;
+      
+      xRatio = Math.max(0, Math.min(1, xRatio));
+      yRatio = Math.max(0, Math.min(1, yRatio));
+      
+      // 動態渲染小紅點在手機上的相對坐標，保證手指拖曳時能即時在手機上看見
+      const dotX = xRatio * rect.width;
+      const dotY = yRatio * rect.height;
+      elTouchpadDot.style.left = `${dotX}px`;
+      elTouchpadDot.style.top = `${dotY}px`;
+      
+      // 💡 每 35ms 節流向電腦端發布最新坐標 JSON 封包
+      const now = Date.now();
+      if (now - lastLaserTime > 35) {
+        if (mqttClient && mqttClient.connected) {
+          mqttClient.publish(`luna/ppt/${roomId}/cmd`, JSON.stringify({
+            type: "laser_move",
+            x: xRatio,
+            y: yRatio
+          }));
+        }
+        lastLaserTime = now;
+      }
+    }
+
+    function handleTouchpadEnd() {
+      elTouchpad.classList.remove("active");
+      elTouchpadStatus.textContent = "手指按住滑動控制紅點";
+      elTouchpadStatus.style.color = "";
+      if (elTouchpadHint) elTouchpadHint.style.opacity = "";
+      
+      // 發布結束雷射筆訊號給電腦
+      if (mqttClient && mqttClient.connected) {
+        mqttClient.publish(`luna/ppt/${roomId}/cmd`, JSON.stringify({
+          type: "laser_end"
+        }));
+      }
+    }
+
+    if (elTouchpad) {
+      elTouchpad.addEventListener("touchstart", (e) => {
+        elTouchpad.classList.add("active");
+        elTouchpadStatus.textContent = "🔴 雷射筆同步中...";
+        elTouchpadStatus.style.color = "#ff0055";
+        if (elTouchpadHint) elTouchpadHint.style.opacity = "0.05";
+        handleTouchpadMove(e);
+      }, { passive: false });
+
+      elTouchpad.addEventListener("touchmove", handleTouchpadMove, { passive: false });
+      elTouchpad.addEventListener("touchend", handleTouchpadEnd);
+      elTouchpad.addEventListener("touchcancel", handleTouchpadEnd);
+    }
   }
 
   // --- 電腦端遙控發送器邏輯 ---
@@ -1392,6 +1461,31 @@ document.addEventListener("DOMContentLoaded", () => {
           // 狀態變為已連接！
           elIndicator.className = "status-indicator-dot green";
           elStatusText.textContent = "手機已連接！";
+          
+          // 💡 判斷是否為 JSON 雷射筆坐標或訊號
+          if (cmd.startsWith("{")) {
+            try {
+              const obj = JSON.parse(cmd);
+              if (obj.type === "laser_move") {
+                // 強制在電腦上顯示並啟用雷射筆！
+                isLaserActive = true;
+                elBtnToggleLaser.classList.add("active");
+                elLaserPointer.classList.add("active");
+                document.body.style.cursor = "none";
+                elPlayer.style.cursor = "none";
+                
+                // 計算在 PC 視窗大小下的絕對座標，交給緩動動畫平滑追踪！
+                targetX = obj.x * window.innerWidth;
+                targetY = obj.y * window.innerHeight;
+              } else if (obj.type === "laser_end") {
+                // 當手指拿開時，立刻將電腦端雷射筆隱藏，手感絕佳！
+                elLaserPointer.classList.remove("active");
+              }
+            } catch (e) {
+              console.error("Parse JSON command error:", e);
+            }
+            return;
+          }
           
           if (cmd === "hello") {
             // 手機剛連上，主動給手機發一次目前播放的簡報資訊
