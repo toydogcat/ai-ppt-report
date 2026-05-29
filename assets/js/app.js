@@ -936,6 +936,15 @@ document.addEventListener("DOMContentLoaded", () => {
     if (isAutoplayActive) {
       toggleAutoplay();
     }
+    
+    // Reset laser pointer states
+    isLaserActive = false;
+    isMobileLaserActive = false;
+    elLaserPointer.classList.remove("active");
+    elBtnToggleLaser.classList.remove("active");
+    document.body.style.cursor = "default";
+    elPlayer.style.cursor = "default";
+
     elPlayer.style.display = "none";
     elPlayer.classList.remove("mobile-reader");
     activeDeck = null;
@@ -1043,7 +1052,9 @@ document.addEventListener("DOMContentLoaded", () => {
       elPlayer.style.cursor = "none";
     } else {
       elBtnToggleLaser.classList.remove("active");
-      elLaserPointer.classList.remove("active");
+      if (!isMobileLaserActive) {
+        elLaserPointer.classList.remove("active");
+      }
       document.body.style.cursor = "default";
       elPlayer.style.cursor = "default";
     }
@@ -1489,8 +1500,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 elLaserPointer.classList.add("active");
                 
                 // 計算在 PC 視窗大小下的絕對座標，交給緩動動畫平滑追踪！
-                targetX = obj.x * window.innerWidth;
-                targetY = obj.y * window.innerHeight;
+                targetX = obj.x * elPlayer.clientWidth;
+                targetY = obj.y * elPlayer.clientHeight;
               } else if (obj.type === "laser_end") {
                 // 當手指拿開時，立刻將電腦端雷射筆隱藏，手感絕佳！
                 isMobileLaserActive = false;
