@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let autoplaySpeed = 5000;
   
   let isLaserActive = false;
+  let isMobileLaserActive = false;
   let lastDirection = "down";
   let activeTransition = "flip-3d";
   
@@ -1053,7 +1054,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let targetX = 0, targetY = 0;
   
   function updateLaserPosition() {
-    if (!isLaserActive) {
+    if (!isLaserActive && !isMobileLaserActive) {
       requestAnimationFrame(updateLaserPosition);
       return;
     }
@@ -1467,19 +1468,19 @@ document.addEventListener("DOMContentLoaded", () => {
             try {
               const obj = JSON.parse(cmd);
               if (obj.type === "laser_move") {
-                // 強制在電腦上顯示並啟用雷射筆！
-                isLaserActive = true;
-                elBtnToggleLaser.classList.add("active");
+                // 啟用手機雷射筆，不影響電腦原本的 system mouse cursor
+                isMobileLaserActive = true;
                 elLaserPointer.classList.add("active");
-                document.body.style.cursor = "none";
-                elPlayer.style.cursor = "none";
                 
                 // 計算在 PC 視窗大小下的絕對座標，交給緩動動畫平滑追踪！
                 targetX = obj.x * window.innerWidth;
                 targetY = obj.y * window.innerHeight;
               } else if (obj.type === "laser_end") {
                 // 當手指拿開時，立刻將電腦端雷射筆隱藏，手感絕佳！
-                elLaserPointer.classList.remove("active");
+                isMobileLaserActive = false;
+                if (!isLaserActive) {
+                  elLaserPointer.classList.remove("active");
+                }
               }
             } catch (e) {
               console.error("Parse JSON command error:", e);
