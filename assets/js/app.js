@@ -152,9 +152,21 @@ document.addEventListener("DOMContentLoaded", () => {
       "calculus-6-6-inverse-trig-functions": typeof DECK_CALCULUS_6_6_MD !== "undefined" ? DECK_CALCULUS_6_6_MD : null,
       "calculus-6-7-hyperbolic-functions": typeof DECK_CALCULUS_6_7_MD !== "undefined" ? DECK_CALCULUS_6_7_MD : null,
       "calculus-6-8-lhospitals-rule":    typeof DECK_CALCULUS_6_8_MD !== "undefined" ? DECK_CALCULUS_6_8_MD : null,
-      "calculus-ch5-overview":           typeof DECK_CALCULUS_CH5_INTRO_MD !== "undefined" ? DECK_CALCULUS_CH5_INTRO_MD : null,
+      "calculus-7-1-integration-by-parts": typeof DECK_CALCULUS_7_1_MD !== "undefined" ? DECK_CALCULUS_7_1_MD : null,
+      "calculus-7-2-trig-integrals":     typeof DECK_CALCULUS_7_2_MD !== "undefined" ? DECK_CALCULUS_7_2_MD : null,
+      "calculus-7-3-trig-substitution":  typeof DECK_CALCULUS_7_3_MD !== "undefined" ? DECK_CALCULUS_7_3_MD : null,
+      "calculus-7-4-partial-fractions": typeof DECK_CALCULUS_7_4_MD !== "undefined" ? DECK_CALCULUS_7_4_MD : null,
+      "calculus-7-5-integration-strategy": typeof DECK_CALCULUS_7_5_MD !== "undefined" ? DECK_CALCULUS_7_5_MD : null,
+      "calculus-7-6-integration-tables": typeof DECK_CALCULUS_7_6_MD !== "undefined" ? DECK_CALCULUS_7_6_MD : null,
+      "calculus-7-7-approximate-integration": typeof DECK_CALCULUS_7_7_MD !== "undefined" ? DECK_CALCULUS_7_7_MD : null,
+      "calculus-7-8-improper-integrals": typeof DECK_CALCULUS_7_8_MD !== "undefined" ? DECK_CALCULUS_7_8_MD : null,
+      "calculus-ch7-overview":           typeof DECK_CALCULUS_CH7_INTRO_MD !== "undefined" ? DECK_CALCULUS_CH7_INTRO_MD : null,
       "calculus-ch6-overview":           typeof DECK_CALCULUS_CH6_INTRO_MD !== "undefined" ? DECK_CALCULUS_CH6_INTRO_MD : null,
+      "calculus-ch5-overview":           typeof DECK_CALCULUS_CH5_INTRO_MD !== "undefined" ? DECK_CALCULUS_CH5_INTRO_MD : null,
       "calculus-ch4-overview":           typeof DECK_CALCULUS_CH4_INTRO_MD !== "undefined" ? DECK_CALCULUS_CH4_INTRO_MD : null,
+      "calculus-ch3-overview":           typeof DECK_CALCULUS_CH3_INTRO_MD !== "undefined" ? DECK_CALCULUS_CH3_INTRO_MD : null,
+      "calculus-ch2-overview":           typeof DECK_CALCULUS_CH2_INTRO_MD !== "undefined" ? DECK_CALCULUS_CH2_INTRO_MD : null,
+      "calculus-ch1-overview":           typeof DECK_CALCULUS_CH1_INTRO_MD !== "undefined" ? DECK_CALCULUS_CH1_INTRO_MD : null,
     };
 
     // Populate slides by matching deck id
