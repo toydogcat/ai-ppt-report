@@ -2,6 +2,21 @@
 if (typeof PRELOADED_DECKS !== "undefined") {
   PRELOADED_DECKS.push(
     {
+      "id": "calculus-ch11-overview",
+      "title": "微積分 第 11 章：無窮級數導讀 (Chapter 11 Overview)",
+      "description": "鳥瞰無窮級數的全貌。本導讀將帶您走過從數列、收斂判定、冪級數到泰勒級數應用的邏輯路徑，揭示每一節的學習核心與連結。",
+      "category": "calculus-ch11",
+      "author": "Toby",
+      "date": "2026-05-30",
+      "tags": [
+        "導讀",
+        "無窮級數",
+        "核心架構",
+        "學習地圖"
+      ],
+      "slides": []
+    },
+    {
       "id": "calculus-11-1-sequences",
       "title": "微積分 11.1：數列 (Sequences)",
       "description": "探索無窮數列的奧秘。學習數列的定義、收斂與發散的判定準則，並掌握夾擠定理與單調數列定理等核心工具。",
@@ -158,6 +173,22 @@ if (typeof PRELOADED_DECKS !== "undefined") {
         "係數公式",
         "泰勒不等式",
         "級數近似"
+      ],
+      "slides": []
+    },
+    {
+      "id": "calculus-11-11-applications",
+      "title": "微積分 11.11：泰勒多項式的應用 (Applications of Taylor Polynomials)",
+      "description": "探索級數在現實世界中的威力。學習如何利用泰勒多項式逼近複雜函數、使用泰勒不等式估計誤差，並深入了解其在物理學（如相對論、光學、黑體輻射）中的關鍵應用。",
+      "category": "calculus-ch11",
+      "author": "Toby",
+      "date": "2026-05-30",
+      "tags": [
+        "泰勒多項式",
+        "誤差估計",
+        "物理應用",
+        "黑體輻射",
+        "近似計算"
       ],
       "slides": []
     }
