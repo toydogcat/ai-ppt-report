@@ -199,6 +199,16 @@ document.addEventListener("DOMContentLoaded", () => {
       "calculus-ch13-overview":          typeof DECK_CALCULUS_CH13_INTRO_MD !== "undefined" ? DECK_CALCULUS_CH13_INTRO_MD : null,
       "calculus-ch14-overview":          typeof DECK_CALCULUS_CH14_INTRO_MD !== "undefined" ? DECK_CALCULUS_CH14_INTRO_MD : null,
       "calculus-ch15-overview":          typeof DECK_CALCULUS_CH15_INTRO_MD !== "undefined" ? DECK_CALCULUS_CH15_INTRO_MD : null,
+      "calculus-ch16-overview":          typeof DECK_CALCULUS_CH16_INTRO_MD !== "undefined" ? DECK_CALCULUS_CH16_INTRO_MD : null,
+      "calculus-16-1-vector-fields":    typeof DECK_CALCULUS_16_1_MD !== "undefined" ? DECK_CALCULUS_16_1_MD : null,
+      "calculus-16-2-line-integrals":   typeof DECK_CALCULUS_16_2_MD !== "undefined" ? DECK_CALCULUS_16_2_MD : null,
+      "calculus-16-3-fundamental-theorem-line": typeof DECK_CALCULUS_16_3_MD !== "undefined" ? DECK_CALCULUS_16_3_MD : null,
+      "calculus-16-4-greens-theorem":   typeof DECK_CALCULUS_16_4_MD !== "undefined" ? DECK_CALCULUS_16_4_MD : null,
+      "calculus-16-5-curl-divergence":  typeof DECK_CALCULUS_16_5_MD !== "undefined" ? DECK_CALCULUS_16_5_MD : null,
+      "calculus-16-6-parametric-surfaces": typeof DECK_CALCULUS_16_6_MD !== "undefined" ? DECK_CALCULUS_16_6_MD : null,
+      "calculus-16-7-surface-integrals": typeof DECK_CALCULUS_16_7_MD !== "undefined" ? DECK_CALCULUS_16_7_MD : null,
+      "calculus-16-8-stokes-theorem":    typeof DECK_CALCULUS_16_8_MD !== "undefined" ? DECK_CALCULUS_16_8_MD : null,
+      "calculus-16-9-divergence-theorem": typeof DECK_CALCULUS_16_9_MD !== "undefined" ? DECK_CALCULUS_16_9_MD : null,
       "calculus-15-1-double-integrals-rect": typeof DECK_CALCULUS_15_1_MD !== "undefined" ? DECK_CALCULUS_15_1_MD : null,
       "calculus-15-2-double-integrals-gen": typeof DECK_CALCULUS_15_2_MD !== "undefined" ? DECK_CALCULUS_15_2_MD : null,
       "calculus-15-3-double-integrals-polar": typeof DECK_CALCULUS_15_3_MD !== "undefined" ? DECK_CALCULUS_15_3_MD : null,
@@ -315,7 +325,8 @@ document.addEventListener("DOMContentLoaded", () => {
       { id: "calculus-ch12", label: "Ch12" },
       { id: "calculus-ch13", label: "Ch13" },
       { id: "calculus-ch14", label: "Ch14" },
-      { id: "calculus-ch15", label: "Ch15" }
+      { id: "calculus-ch15", label: "Ch15" },
+      { id: "calculus-ch16", label: "Ch16" }
     ];
 
     elSubCategoryFilters.innerHTML = chapters.map(ch => `
@@ -373,6 +384,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "calculus-ch13": "微積分 Ch13",
       "calculus-ch14": "微積分 Ch14",
       "calculus-ch15": "微積分 Ch15",
+      "calculus-ch16": "微積分 Ch16",
       "custom": "自訂簡報"
     };
     
