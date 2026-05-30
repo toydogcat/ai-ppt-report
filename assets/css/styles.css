@@ -1713,7 +1713,8 @@ pre code {
   color: #fff;
   font-family: var(--font-sans);
   padding: 1.5rem;
-  overflow: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   box-sizing: border-box;
 }
 
@@ -1749,9 +1750,8 @@ pre code {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 2.5rem;
-  padding: 1.5rem 0;
+  gap: 1.5rem;
+  padding: 1rem 0;
 }
 
 .current-slide-info {
@@ -1793,26 +1793,89 @@ pre code {
   transition: width 0.3s ease;
 }
 
-/* 巨型按鈕 */
+/* 跳頁控制區樣式 */
+.mobile-jump-container {
+  margin: 0.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.jump-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 0.5rem;
+}
+
+.jump-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 0.5px;
+}
+
+.jump-status {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.mobile-page-select {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.3s ease;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1rem;
+  padding-right: 2.5rem;
+}
+
+.mobile-page-select:focus {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 15px rgba(6, 182, 212, 0.25);
+  background-color: rgba(6, 182, 212, 0.05);
+}
+
+.mobile-page-select option {
+  background: #0f111a;
+  color: #fff;
+}
+
+/* 巨型按鈕優化為左右並排的精美按鈕 */
 .mobile-control-buttons {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
   width: 100%;
 }
 
 .mobile-btn {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 1.25rem;
-  padding: 2.25rem 1.5rem;
+  border-radius: 1rem;
+  padding: 1rem 1rem;
   color: #fff;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.5rem;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
 
@@ -1824,11 +1887,11 @@ pre code {
 }
 
 .mobile-btn .btn-icon {
-  font-size: 2.25rem;
+  font-size: 1.25rem;
 }
 
 .mobile-btn .btn-label {
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   font-weight: 700;
   letter-spacing: 0.5px;
 }

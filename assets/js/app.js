@@ -1324,6 +1324,22 @@ document.addEventListener("DOMContentLoaded", () => {
             elPageText.textContent = `Slide ${status.current} / ${status.total}`;
             const pct = (status.current / status.total) * 100;
             elProgress.style.width = `${pct}%`;
+            
+            // 動態更新下拉跳頁選單
+            const elPageSelect = document.getElementById("mobile-page-select");
+            if (elPageSelect) {
+              if (elPageSelect.options.length !== status.total || elPageSelect.getAttribute("data-total") !== String(status.total)) {
+                elPageSelect.innerHTML = "";
+                elPageSelect.setAttribute("data-total", status.total);
+                for (let i = 0; i < status.total; i++) {
+                  const opt = document.createElement("option");
+                  opt.value = i;
+                  opt.textContent = `第 ${i + 1} 頁`;
+                  elPageSelect.appendChild(opt);
+                }
+              }
+              elPageSelect.value = status.current - 1;
+            }
           } catch (e) {
             console.error("Parse status JSON error", e);
           }
@@ -1361,6 +1377,15 @@ document.addEventListener("DOMContentLoaded", () => {
     
     document.getElementById("mobile-prev-btn").addEventListener("click", () => sendCommand("prev"));
     document.getElementById("mobile-next-btn").addEventListener("click", () => sendCommand("next"));
+    
+    // 綁定下拉選單改變事件，實現跳頁
+    const elPageSelect = document.getElementById("mobile-page-select");
+    if (elPageSelect) {
+      elPageSelect.addEventListener("change", (e) => {
+        const index = parseInt(e.target.value);
+        sendCommand(`goto:${index}`);
+      });
+    }
     
     // 斷開連接按鈕
     document.getElementById("mobile-disconnect-btn").addEventListener("click", () => {
@@ -1586,6 +1611,19 @@ document.addEventListener("DOMContentLoaded", () => {
             nextSlide();
           } else if (cmd === "prev") {
             prevSlide();
+          } else if (cmd.startsWith("goto:")) {
+            const index = parseInt(cmd.split(":")[1]);
+            if (!isNaN(index) && activeDeck && index >= 0 && index < activeDeck.slides.length) {
+              lastDirection = index > activeSlideIndex ? "down" : "up";
+              activeSlideIndex = index;
+              renderSlide();
+              
+              // Iframe sync
+              broadcastToParent("iframe_scroll", {
+                scrollY: activeSlideIndex * 100,
+                direction: lastDirection
+              });
+            }
           }
         }
       });

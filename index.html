@@ -513,20 +513,7 @@
         </div>
       </div>
       
-      <!-- 超大觸控按鈕區 -->
-      <div class="mobile-control-buttons">
-        <button class="mobile-btn prev-btn" id="mobile-prev-btn">
-          <div class="btn-icon">⬅️</div>
-          <span class="btn-label">上一頁</span>
-        </button>
-        
-        <button class="mobile-btn next-btn" id="mobile-next-btn">
-          <div class="btn-icon">➡️</div>
-          <span class="btn-label">下一頁</span>
-        </button>
-      </div>
-      
-      <!-- 虛擬雷射筆觸控板 -->
+      <!-- 虛擬雷射筆觸控板 (移到最上方) -->
       <div class="mobile-laser-touchpad-container">
         <div class="touchpad-header">
           <span class="touchpad-title">🔴 雷射筆虛擬觸控板</span>
@@ -537,6 +524,30 @@
           <div class="touchpad-crosshair"></div>
           <span class="touchpad-hint" id="touchpad-hint-text">在此區域內拖曳</span>
         </div>
+      </div>
+      
+      <!-- 跳頁控制區 (新增於中間) -->
+      <div class="mobile-jump-container">
+        <div class="jump-header">
+          <span class="jump-title">🔢 快速跳頁控制</span>
+          <span class="jump-status">直接切換至指定頁面</span>
+        </div>
+        <select id="mobile-page-select" class="mobile-page-select">
+          <option value="0">等待載入頁碼...</option>
+        </select>
+      </div>
+      
+      <!-- 觸控按鈕區 (移到最下方，將以 css 改為橫向並排、縮小) -->
+      <div class="mobile-control-buttons">
+        <button class="mobile-btn prev-btn" id="mobile-prev-btn">
+          <div class="btn-icon">⬅️</div>
+          <span class="btn-label">上一頁</span>
+        </button>
+        
+        <button class="mobile-btn next-btn" id="mobile-next-btn">
+          <div class="btn-icon">➡️</div>
+          <span class="btn-label">下一頁</span>
+        </button>
       </div>
       
       <div class="mobile-gesture-hint">
