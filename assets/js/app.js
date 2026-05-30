@@ -195,6 +195,13 @@ document.addEventListener("DOMContentLoaded", () => {
       "calculus-ch9-overview":           typeof DECK_CALCULUS_CH9_INTRO_MD !== "undefined" ? DECK_CALCULUS_CH9_INTRO_MD : null,
       "calculus-ch10-overview":          typeof DECK_CALCULUS_CH10_INTRO_MD !== "undefined" ? DECK_CALCULUS_CH10_INTRO_MD : null,
       "calculus-ch11-overview":          typeof DECK_CALCULUS_CH11_INTRO_MD !== "undefined" ? DECK_CALCULUS_CH11_INTRO_MD : null,
+      "calculus-ch12-overview":          typeof DECK_CALCULUS_CH12_INTRO_MD !== "undefined" ? DECK_CALCULUS_CH12_INTRO_MD : null,
+      "calculus-12-1-3d-coords":        typeof DECK_CALCULUS_12_1_MD !== "undefined" ? DECK_CALCULUS_12_1_MD : null,
+      "calculus-12-2-vectors":          typeof DECK_CALCULUS_12_2_MD !== "undefined" ? DECK_CALCULUS_12_2_MD : null,
+      "calculus-12-3-dot-product":      typeof DECK_CALCULUS_12_3_MD !== "undefined" ? DECK_CALCULUS_12_3_MD : null,
+      "calculus-12-4-cross-product":    typeof DECK_CALCULUS_12_4_MD !== "undefined" ? DECK_CALCULUS_12_4_MD : null,
+      "calculus-12-5-lines-planes":     typeof DECK_CALCULUS_12_5_MD !== "undefined" ? DECK_CALCULUS_12_5_MD : null,
+      "calculus-12-6-quadric-surfaces": typeof DECK_CALCULUS_12_6_MD !== "undefined" ? DECK_CALCULUS_12_6_MD : null,
       "calculus-11-1-sequences":        typeof DECK_CALCULUS_11_1_MD !== "undefined" ? DECK_CALCULUS_11_1_MD : null,
       "calculus-11-2-series":           typeof DECK_CALCULUS_11_2_MD !== "undefined" ? DECK_CALCULUS_11_2_MD : null,
       "calculus-11-3-integral-test":    typeof DECK_CALCULUS_11_3_MD !== "undefined" ? DECK_CALCULUS_11_3_MD : null,
@@ -280,7 +287,8 @@ document.addEventListener("DOMContentLoaded", () => {
       { id: "calculus-ch8", label: "Ch8" },
       { id: "calculus-ch9", label: "Ch9" },
       { id: "calculus-ch10", label: "Ch10" },
-      { id: "calculus-ch11", label: "Ch11" }
+      { id: "calculus-ch11", label: "Ch11" },
+      { id: "calculus-ch12", label: "Ch12" }
     ];
 
     elSubCategoryFilters.innerHTML = chapters.map(ch => `
@@ -334,6 +342,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "calculus-ch9": "微積分 Ch9",
       "calculus-ch10": "微積分 Ch10",
       "calculus-ch11": "微積分 Ch11",
+      "calculus-ch12": "微積分 Ch12",
       "custom": "自訂簡報"
     };
     
