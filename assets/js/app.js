@@ -508,9 +508,11 @@ document.addEventListener("DOMContentLoaded", () => {
           title = line.replace("# ", "");
         } else if (line.startsWith("## ")) {
           if (!title) title = line.replace("## ", "");
-          else subtitle = line.replace("## ", "");
+          else if (!subtitle) subtitle = line.replace("## ", "");
+          else content += "**" + line.replace("## ", "") + "**\n";
         } else if (line.startsWith("### ")) {
-          subtitle = line.replace("### ", "");
+          if (!subtitle) subtitle = line.replace("### ", "");
+          else content += "**" + line.replace("### ", "") + "**\n";
         } else if (line.includes("推薦 AI：") || line.includes("適用 AI：") || line.includes("適用工具：") || line.includes("**推薦 AI：**") || line.includes("**適用 AI：**") || line.includes("**適用工具：**") || line.includes("推薦 AI**")) {
           let temp = line.replace(/^[\*\-\s]+/, "");
           tools = temp.replace(/.*[：:]\s*/, "").replace(/\*+/g, "").trim();
@@ -597,8 +599,10 @@ document.addEventListener("DOMContentLoaded", () => {
         slides.push({
           layout: "text",
           title: title || "關鍵思維",
+          subtitle: subtitle || "",
           content: content.trim(),
-          highlight: highlight || subtitle || ""
+          tools: tools || "",
+          highlight: highlight || ""
         });
       }
     });
@@ -699,6 +703,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="slide-card mobile-card" style="margin-bottom: 2rem; height: auto; aspect-ratio: auto;">
             <div class="slide-badge">第 ${index + 1} 頁 / 共 ${activeDeck.slides.length} 頁</div>
             <h2 class="slide-title">${parseMarkdownInline(slide.title)}</h2>
+            ${slide.subtitle ? `<div class="subtitle" style="font-size: 1.1rem; color: var(--accent-cyan); font-weight: 600; margin-bottom: 0.75rem;">${parseMarkdownInline(slide.subtitle)}</div>` : ""}
             ${slide.content ? `<div class="list-content-extra" style="margin-bottom: 1.25rem; font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6; white-space: pre-line;">${parseMarkdownInline(slide.content)}</div>` : ""}
             <div class="layout-list-container">
               ${itemsHtml}
@@ -712,6 +717,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="slide-badge">第 ${index + 1} 頁 / 共 ${activeDeck.slides.length} 頁</div>
             <h2 class="slide-title">${parseMarkdownInline(slide.title)}</h2>
             <div class="layout-text-content" style="font-size: 1.05rem; line-height: 1.6;">
+              ${slide.subtitle ? `<div class="subtitle" style="font-size: 1.1rem; color: var(--accent-cyan); font-weight: 600; margin-bottom: 0.5rem;">${parseMarkdownInline(slide.subtitle)}</div>` : ""}
               <p>${parseMarkdownInline(slide.content)}</p>
               ${hBox}
             </div>
@@ -867,6 +873,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="slide-card" id="active-slide-card">
           <div class="progress-line-container"><div class="progress-line-bar" style="width: ${progressPercent}%"></div></div>
           <h2 class="slide-title">${parseMarkdownInline(slide.title)}</h2>
+          ${slide.subtitle ? `<div class="subtitle" style="font-size: 1.25rem; color: var(--accent-cyan); font-weight: 600; margin-bottom: 1rem;">${parseMarkdownInline(slide.subtitle)}</div>` : ""}
           ${slide.content ? `<div class="list-content-extra" style="margin-bottom: 1.5rem; font-size: 1.15rem; color: var(--text-secondary); line-height: 1.7; white-space: pre-line;">${parseMarkdownInline(slide.content)}</div>` : ""}
           <div class="layout-list-container">
             ${itemsHtml}
@@ -881,6 +888,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="progress-line-container"><div class="progress-line-bar" style="width: ${progressPercent}%"></div></div>
           <h2 class="slide-title">${parseMarkdownInline(slide.title)}</h2>
           <div class="layout-text-content" style="white-space: pre-line;">
+            ${slide.subtitle ? `<div class="subtitle" style="font-size: 1.25rem; color: var(--accent-cyan); font-weight: 600; margin-bottom: 0.5rem;">${parseMarkdownInline(slide.subtitle)}</div>` : ""}
             <p>${parseMarkdownInline(slide.content)}</p>
             ${hBox}
           </div>
