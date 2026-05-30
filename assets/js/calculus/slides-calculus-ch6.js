@@ -161,22 +161,6 @@ if (typeof PRELOADED_DECKS !== "undefined") {
         "slides": []
       },
       {
-        "id": "calculus-6-8-lhospitals-rule",
-        "title": "微積分 6.8：羅必達法則 (l'Hospital's Rule)",
-        "description": "破解不定型極限的終極武器。學習如何處理 0/0、∞/∞ 等各種不定型極限，掌握將乘積、差值與冪次轉化為分式的藝術，並避開常見的運算陷阱。",
-        "category": "calculus-ch6",
-        "author": "Toby",
-        "date": "2026-05-29",
-        "tags": [
-          "羅必達法則",
-          "不定型",
-          "極限運算",
-          "0/0 破解",
-          "代數轉換"
-        ],
-        "slides": []
-      },
-      {
         "id": "calculus-6-7-hyperbolic-functions",
         "title": "微積分 6.7：雙曲函數 (Hyperbolic Functions)",
         "description": "探索指數函數的對稱之美。學習 sinh、cosh 與 tanh 的定義及其與雙曲線的幾何聯繫，掌握雙曲恆等式與導數公式，並理解懸鏈線在工程中的實戰應用。",
@@ -189,6 +173,22 @@ if (typeof PRELOADED_DECKS !== "undefined") {
           "雙曲恆等式",
           "cosh",
           "反雙曲函數"
+        ],
+        "slides": []
+      },
+      {
+        "id": "calculus-6-8-lhospitals-rule",
+        "title": "微積分 6.8：羅必達法則 (l'Hospital's Rule)",
+        "description": "破解不定型極限的終極武器。學習如何處理 0/0、∞/∞ 等各種不定型極限，掌握將乘積、差值與冪次轉化為分式的藝術，並避開常見的運算陷阱。",
+        "category": "calculus-ch6",
+        "author": "Toby",
+        "date": "2026-05-29",
+        "tags": [
+          "羅必達法則",
+          "不定型",
+          "極限運算",
+          "0/0 破解",
+          "代數轉換"
         ],
         "slides": []
       }
