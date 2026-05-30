@@ -174,6 +174,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "calculus-6-6-inverse-trig-functions": typeof DECK_CALCULUS_6_6_MD !== "undefined" ? DECK_CALCULUS_6_6_MD : null,
       "calculus-6-7-hyperbolic-functions": typeof DECK_CALCULUS_6_7_MD !== "undefined" ? DECK_CALCULUS_6_7_MD : null,
       "calculus-6-8-lhospitals-rule":    typeof DECK_CALCULUS_6_8_MD !== "undefined" ? DECK_CALCULUS_6_8_MD : null,
+      "calculus-6-9-exercise-set-2":     typeof DECK_CALCULUS_6_9_MD !== "undefined" ? DECK_CALCULUS_6_9_MD : null,
       "calculus-7-1-integration-by-parts": typeof DECK_CALCULUS_7_1_MD !== "undefined" ? DECK_CALCULUS_7_1_MD : null,
       "calculus-7-2-trig-integrals":     typeof DECK_CALCULUS_7_2_MD !== "undefined" ? DECK_CALCULUS_7_2_MD : null,
       "calculus-7-3-trig-substitution":  typeof DECK_CALCULUS_7_3_MD !== "undefined" ? DECK_CALCULUS_7_3_MD : null,
