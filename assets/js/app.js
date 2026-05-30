@@ -699,10 +699,10 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="slide-card mobile-card" style="margin-bottom: 2rem; height: auto; aspect-ratio: auto;">
             <div class="slide-badge">第 ${index + 1} 頁 / 共 ${activeDeck.slides.length} 頁</div>
             <h2 class="slide-title">${parseMarkdownInline(slide.title)}</h2>
+            ${slide.content ? `<div class="list-content-extra" style="margin-bottom: 1.25rem; font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6; white-space: pre-line;">${parseMarkdownInline(slide.content)}</div>` : ""}
             <div class="layout-list-container">
               ${itemsHtml}
             </div>
-            ${slide.content ? `<div class="list-content-extra" style="margin-top: 1.25rem; font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6; white-space: pre-line;">${parseMarkdownInline(slide.content)}</div>` : ""}
           </div>
         `;
       } else {
@@ -867,10 +867,10 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="slide-card" id="active-slide-card">
           <div class="progress-line-container"><div class="progress-line-bar" style="width: ${progressPercent}%"></div></div>
           <h2 class="slide-title">${parseMarkdownInline(slide.title)}</h2>
+          ${slide.content ? `<div class="list-content-extra" style="margin-bottom: 1.5rem; font-size: 1.15rem; color: var(--text-secondary); line-height: 1.7; white-space: pre-line;">${parseMarkdownInline(slide.content)}</div>` : ""}
           <div class="layout-list-container">
             ${itemsHtml}
           </div>
-          ${slide.content ? `<div class="list-content-extra" style="margin-top: 1.5rem; font-size: 1.15rem; color: var(--text-secondary); line-height: 1.7; white-space: pre-line;">${parseMarkdownInline(slide.content)}</div>` : ""}
         </div>
       `;
     } else {
