@@ -197,6 +197,15 @@ document.addEventListener("DOMContentLoaded", () => {
       "calculus-ch11-overview":          typeof DECK_CALCULUS_CH11_INTRO_MD !== "undefined" ? DECK_CALCULUS_CH11_INTRO_MD : null,
       "calculus-ch12-overview":          typeof DECK_CALCULUS_CH12_INTRO_MD !== "undefined" ? DECK_CALCULUS_CH12_INTRO_MD : null,
       "calculus-ch13-overview":          typeof DECK_CALCULUS_CH13_INTRO_MD !== "undefined" ? DECK_CALCULUS_CH13_INTRO_MD : null,
+      "calculus-ch14-overview":          typeof DECK_CALCULUS_CH14_INTRO_MD !== "undefined" ? DECK_CALCULUS_CH14_INTRO_MD : null,
+      "calculus-14-1-several-variables": typeof DECK_CALCULUS_14_1_MD !== "undefined" ? DECK_CALCULUS_14_1_MD : null,
+      "calculus-14-2-limits-continuity": typeof DECK_CALCULUS_14_2_MD !== "undefined" ? DECK_CALCULUS_14_2_MD : null,
+      "calculus-14-3-partial-derivatives": typeof DECK_CALCULUS_14_3_MD !== "undefined" ? DECK_CALCULUS_14_3_MD : null,
+      "calculus-14-4-tangent-planes":    typeof DECK_CALCULUS_14_4_MD !== "undefined" ? DECK_CALCULUS_14_4_MD : null,
+      "calculus-14-5-chain-rule":       typeof DECK_CALCULUS_14_5_MD !== "undefined" ? DECK_CALCULUS_14_5_MD : null,
+      "calculus-14-6-directional-derivatives": typeof DECK_CALCULUS_14_6_MD !== "undefined" ? DECK_CALCULUS_14_6_MD : null,
+      "calculus-14-7-max-min":          typeof DECK_CALCULUS_14_7_MD !== "undefined" ? DECK_CALCULUS_14_7_MD : null,
+      "calculus-14-8-lagrange-multipliers": typeof DECK_CALCULUS_14_8_MD !== "undefined" ? DECK_CALCULUS_14_8_MD : null,
       "calculus-13-1-vector-functions": typeof DECK_CALCULUS_13_1_MD !== "undefined" ? DECK_CALCULUS_13_1_MD : null,
       "calculus-13-2-vector-derivatives": typeof DECK_CALCULUS_13_2_MD !== "undefined" ? DECK_CALCULUS_13_2_MD : null,
       "calculus-13-3-arc-length":       typeof DECK_CALCULUS_13_3_MD !== "undefined" ? DECK_CALCULUS_13_3_MD : null,
@@ -294,7 +303,8 @@ document.addEventListener("DOMContentLoaded", () => {
       { id: "calculus-ch10", label: "Ch10" },
       { id: "calculus-ch11", label: "Ch11" },
       { id: "calculus-ch12", label: "Ch12" },
-      { id: "calculus-ch13", label: "Ch13" }
+      { id: "calculus-ch13", label: "Ch13" },
+      { id: "calculus-ch14", label: "Ch14" }
     ];
 
     elSubCategoryFilters.innerHTML = chapters.map(ch => `
@@ -350,6 +360,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "calculus-ch11": "微積分 Ch11",
       "calculus-ch12": "微積分 Ch12",
       "calculus-ch13": "微積分 Ch13",
+      "calculus-ch14": "微積分 Ch14",
       "custom": "自訂簡報"
     };
     
