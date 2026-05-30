@@ -203,6 +203,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "calculus-11-7-testing-strategy": typeof DECK_CALCULUS_11_7_MD !== "undefined" ? DECK_CALCULUS_11_7_MD : null,
       "calculus-11-8-power-series":     typeof DECK_CALCULUS_11_8_MD !== "undefined" ? DECK_CALCULUS_11_8_MD : null,
       "calculus-11-9-function-series":  typeof DECK_CALCULUS_11_9_MD !== "undefined" ? DECK_CALCULUS_11_9_MD : null,
+      "calculus-11-10-taylor-series":   typeof DECK_CALCULUS_11_10_MD !== "undefined" ? DECK_CALCULUS_11_10_MD : null,
       "calculus-10-1-parametric-curves": typeof DECK_CALCULUS_10_1_MD !== "undefined" ? DECK_CALCULUS_10_1_MD : null,
       "calculus-10-2-parametric-calc":   typeof DECK_CALCULUS_10_2_MD !== "undefined" ? DECK_CALCULUS_10_2_MD : null,
       "calculus-10-3-polar-coords":      typeof DECK_CALCULUS_10_3_MD !== "undefined" ? DECK_CALCULUS_10_3_MD : null,
@@ -682,6 +683,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     // Broadcast active presentation states to mother Luna Hub
+    broadcastToParent("iframe_presentation_start", {
+      deck: deck
+    });
+
     broadcastToParent("iframe_scroll", {
       scrollY: 0,
       direction: "up"
@@ -1617,6 +1622,28 @@ document.addEventListener("DOMContentLoaded", () => {
     if (elBtnRemoteControl) {
       elBtnRemoteControl.addEventListener("click", startComputerBroadcaster);
     }
+
+    // 父層 P2P postMessage 遙控翻頁監聽器
+    window.addEventListener("message", (event) => {
+      const msg = event.data;
+      if (!msg || typeof msg !== "object") return;
+      
+      if (msg.action === "sync_start_presentation") {
+        if (msg.deck) {
+          startPresentation(msg.deck);
+        }
+      } else if (msg.action === "go_to_slide") {
+        // 如果當前還沒播放簡報，但收到翻頁指令，這可能不正常；但在 sync_start_presentation 的保障下，這能更健壯
+        if (activeDeck && typeof msg.index === "number" && msg.index >= 0 && msg.index < activeDeck.slides.length) {
+          activeSlideIndex = msg.index;
+          renderSlide();
+        }
+      } else if (msg.action === "next_slide") {
+        nextSlide();
+      } else if (msg.action === "prev_slide") {
+        prevSlide();
+      }
+    });
     
     const elCloseRemoteModalBtn = document.getElementById("close-remote-modal-btn");
     if (elCloseRemoteModalBtn) {

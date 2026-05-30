@@ -144,6 +144,22 @@ if (typeof PRELOADED_DECKS !== "undefined") {
         "函數逼近"
       ],
       "slides": []
+    },
+    {
+      "id": "calculus-11-10-taylor-series",
+      "title": "微積分 11.10：泰勒與馬克勞林級數 (Taylor & Maclaurin Series)",
+      "description": "學習將任何平滑函數拆解為無窮項多項式的終極法則。掌握泰勒級數的通式、記住重要函數（ex, sin x, cos x）的馬克勞林展開式，並理解誤差估計的原理。",
+      "category": "calculus-ch11",
+      "author": "Toby",
+      "date": "2026-05-29",
+      "tags": [
+        "泰勒級數",
+        "馬克勞林級數",
+        "係數公式",
+        "泰勒不等式",
+        "級數近似"
+      ],
+      "slides": []
     }
   );
 }
