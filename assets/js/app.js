@@ -835,7 +835,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   `).join("")}
                 </div>
               ` : ""}
-              <div class="tools-tag">最佳實戰工具: <span>${parseMarkdownInline(slide.tools)}</span></div>
+              ${slide.tools ? `<div class="tools-tag">最佳實戰工具: <span>${parseMarkdownInline(slide.tools)}</span></div>` : ""}
             </div>
             <div class="prompt-sandbox">
               <div class="sandbox-header">
