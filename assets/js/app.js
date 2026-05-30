@@ -567,12 +567,19 @@ document.addEventListener("DOMContentLoaded", () => {
           items: gridItems
         });
       } else if (layout === "split") {
+        let finalHighlight = highlight;
+        let finalContent = content.trim();
+        if (!finalHighlight) {
+          finalHighlight = finalContent;
+          finalContent = "";
+        }
         slides.push({
           layout: "split",
           title: title || "深度工作流",
           subtitle: subtitle || "精準實戰場景",
-          highlight: highlight || content.substring(0, 100).trim(),
-          content: content.trim(),
+          highlight: finalHighlight,
+          content: finalContent,
+          items: listItems,
           tools: tools || "專屬 AI",
           prompt: prompt.trim()
         });
@@ -646,8 +653,18 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="layout-split-container" style="grid-template-columns: 1fr; gap: 1.5rem;">
               <div class="split-left">
                 <div class="subtitle">${parseMarkdownInline(slide.subtitle)}</div>
-                <div class="highlight">${parseMarkdownInline(slide.highlight)}</div>
+                ${slide.highlight ? `<div class="highlight">${parseMarkdownInline(slide.highlight)}</div>` : ""}
                 ${slide.content ? `<div class="split-content-body">${slide.content}</div>` : ""}
+                ${slide.items && slide.items.length > 0 ? `
+                  <div class="split-list-body" style="margin-top: 1rem; display: flex; flex-direction: column; gap: 0.8rem;">
+                    ${slide.items.map((item, idx) => `
+                      <div class="list-slide-item" style="padding: 0.75rem 1rem; font-size: 0.95rem; gap: 0.8rem;">
+                        <div class="list-item-bullet" style="width: 1.25rem; height: 1.25rem; min-width: 1.25rem; font-size: 0.75rem;">${idx + 1}</div>
+                        <div style="flex: 1;">${parseMarkdownInline(item)}</div>
+                      </div>
+                    `).join("")}
+                  </div>
+                ` : ""}
                 <div class="tools-tag">最佳實戰工具: <span>${parseMarkdownInline(slide.tools)}</span></div>
               </div>
               <div class="prompt-sandbox" style="max-height: none;">
@@ -802,8 +819,18 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="layout-split-container">
             <div class="split-left">
               <div class="subtitle">${parseMarkdownInline(slide.subtitle)}</div>
-              <div class="highlight">${parseMarkdownInline(slide.highlight)}</div>
+              ${slide.highlight ? `<div class="highlight">${parseMarkdownInline(slide.highlight)}</div>` : ""}
               ${slide.content ? `<div class="split-content-body">${slide.content}</div>` : ""}
+              ${slide.items && slide.items.length > 0 ? `
+                <div class="split-list-body" style="margin-top: 1rem; display: flex; flex-direction: column; gap: 0.8rem;">
+                  ${slide.items.map((item, idx) => `
+                    <div class="list-slide-item" style="padding: 0.75rem 1rem; font-size: 0.95rem; gap: 0.8rem;">
+                      <div class="list-item-bullet" style="width: 1.25rem; height: 1.25rem; min-width: 1.25rem; font-size: 0.75rem;">${idx + 1}</div>
+                      <div style="flex: 1;">${parseMarkdownInline(item)}</div>
+                    </div>
+                  `).join("")}
+                </div>
+              ` : ""}
               <div class="tools-tag">最佳實戰工具: <span>${parseMarkdownInline(slide.tools)}</span></div>
             </div>
             <div class="prompt-sandbox">
