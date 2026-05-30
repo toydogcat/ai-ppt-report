@@ -71,8 +71,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- Inline Markdown Parser ---
   function parseMarkdownInline(text) {
     if (!text) return "";
+    // Handle images: ![alt](url)
+    let formatted = text.replace(/!\[(.*?)\]\((.*?)\)/g, '<img src="$2" alt="$1" class="slide-img" />');
     // Handle inline code: `code`
-    let formatted = text.replace(/`(.*?)`/g, '<code>$1</code>');
+    formatted = formatted.replace(/`(.*?)`/g, '<code>$1</code>');
     // Handle bold: **bold**
     formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
     // Handle italic: *italic*
@@ -588,7 +590,8 @@ document.addEventListener("DOMContentLoaded", () => {
           layout: "list",
           title: title || "核心原則與整理",
           subtitle: subtitle || "",
-          items: listItems
+          items: listItems,
+          content: content.trim()
         });
       } else {
         slides.push({
@@ -699,6 +702,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="layout-list-container">
               ${itemsHtml}
             </div>
+            ${slide.content ? `<div class="list-content-extra" style="margin-top: 1.25rem; font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6; white-space: pre-line;">${parseMarkdownInline(slide.content)}</div>` : ""}
           </div>
         `;
       } else {
@@ -866,6 +870,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="layout-list-container">
             ${itemsHtml}
           </div>
+          ${slide.content ? `<div class="list-content-extra" style="margin-top: 1.5rem; font-size: 1.15rem; color: var(--text-secondary); line-height: 1.7; white-space: pre-line;">${parseMarkdownInline(slide.content)}</div>` : ""}
         </div>
       `;
     } else {
@@ -875,7 +880,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="slide-card layout-text" id="active-slide-card">
           <div class="progress-line-container"><div class="progress-line-bar" style="width: ${progressPercent}%"></div></div>
           <h2 class="slide-title">${parseMarkdownInline(slide.title)}</h2>
-          <div class="layout-text-content">
+          <div class="layout-text-content" style="white-space: pre-line;">
             <p>${parseMarkdownInline(slide.content)}</p>
             ${hBox}
           </div>

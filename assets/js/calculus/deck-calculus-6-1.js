@@ -21,6 +21,8 @@ const DECK_CALCULUS_6_1_MD = String.raw`# 微積分 6.1：反函數及其導數
 *   **方法**：在圖形上畫一條水平線。
 *   **判準**：如果任何水平線與函數圖形相交**不超過 1 個點**，那它就是一對一函數。
 
+![水平線測試圖解](assets/img/calculus_6_1_horizontal_test.webp)
+
 ---
 
 ## 範例對比：一對一性
