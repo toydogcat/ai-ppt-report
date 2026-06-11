@@ -540,7 +540,12 @@ document.addEventListener("DOMContentLoaded", () => {
       if (index === 0) {
         layout = "cover";
       } else if (tableRows.length > 0) {
-        layout = "grid";
+        const colCount = tableRows[0].length;
+        if (colCount > 3) {
+          layout = "table";
+        } else {
+          layout = "grid";
+        }
       } else if (prompt.trim() !== "") {
         layout = "split";
       } else if (listItems.length > 0) {
@@ -554,6 +559,14 @@ document.addEventListener("DOMContentLoaded", () => {
           title: title || "無標題簡報",
           subtitle: subtitle || content.substring(0, 120) || "按一下進入下一頁",
           theme: "cyberpunk"
+        });
+      } else if (layout === "table") {
+        slides.push({
+          layout: "table",
+          title: title || "對照資料表",
+          subtitle: subtitle || "",
+          headers: tableRows[0] || [],
+          rows: tableRows.slice(1) || []
         });
       } else if (layout === "grid") {
         const gridItems = [];
@@ -630,6 +643,32 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="slide-badge">第 ${index + 1} 頁 / 共 ${activeDeck.slides.length} 頁</div>
             <h1>${parseMarkdownInline(slide.title)}</h1>
             <p>${parseMarkdownInline(slide.subtitle).replace(/\n/g, "<br>")}</p>
+          </div>
+        `;
+      } else if (slide.layout === "table") {
+        const headersHtml = slide.headers.map(h => `<th>${parseMarkdownInline(h)}</th>`).join("");
+        const rowsHtml = slide.rows.map(row => `
+          <tr>
+            ${row.map(cell => `<td>${parseMarkdownInline(cell)}</td>`).join("")}
+          </tr>
+        `).join("");
+        
+        layoutHtml = `
+          <div class="slide-card mobile-card" style="margin-bottom: 2rem; height: auto; aspect-ratio: auto;">
+            <div class="slide-badge">第 ${index + 1} 頁 / 共 ${activeDeck.slides.length} 頁</div>
+            <h2 class="slide-title">${parseMarkdownInline(slide.title)}</h2>
+            <div class="layout-table-wrapper" style="overflow-x: auto; width: 100%;">
+              <table class="slide-data-table" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem;">
+                <thead>
+                  <tr style="border-bottom: 2px solid rgba(6, 182, 212, 0.4); background: rgba(255, 255, 255, 0.02);">
+                    ${headersHtml}
+                  </tr>
+                </thead>
+                <tbody>
+                  ${rowsHtml}
+                </tbody>
+              </table>
+            </div>
           </div>
         `;
       } else if (slide.layout === "grid") {
@@ -799,6 +838,32 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="progress-line-container"><div class="progress-line-bar" style="width: ${progressPercent}%"></div></div>
           <h1>${parseMarkdownInline(slide.title)}</h1>
           <p>${parseMarkdownInline(slide.subtitle).replace(/\n/g, "<br>")}</p>
+        </div>
+      `;
+    } else if (slide.layout === "table") {
+      const headersHtml = slide.headers.map(h => `<th>${parseMarkdownInline(h)}</th>`).join("");
+      const rowsHtml = slide.rows.map(row => `
+        <tr>
+          ${row.map(cell => `<td>${parseMarkdownInline(cell)}</td>`).join("")}
+        </tr>
+      `).join("");
+      
+      layoutHtml = `
+        <div class="slide-card" id="active-slide-card">
+          <div class="progress-line-container"><div class="progress-line-bar" style="width: ${progressPercent}%"></div></div>
+          <h2 class="slide-title">${parseMarkdownInline(slide.title)}</h2>
+          <div class="layout-table-wrapper" style="overflow-x: auto; width: 100%; margin-top: 1rem;">
+            <table class="slide-data-table" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.95rem;">
+              <thead>
+                <tr style="border-bottom: 2px solid rgba(6, 182, 212, 0.4); background: rgba(255, 255, 255, 0.02);">
+                  ${headersHtml}
+                </tr>
+              </thead>
+              <tbody>
+                ${rowsHtml}
+              </tbody>
+            </table>
+          </div>
         </div>
       `;
     } else if (slide.layout === "grid") {

@@ -109,7 +109,7 @@ const PRELOADED_DECKS = [
   {
     "id": "marketing-methodology-2026",
     "title": "行銷方法論：流量與成交的藝術",
-    "description": "剖析網路行銷的核心本質，探討短影音導流思維、7大內容主題 X 11大流量密碼，以及行銷漏斗與媒介演變。",
+    "description": "剖析網路行銷的核心本質，探討短影音導流思維、9大內容主題 X 15大流量密碼，以及平衡法則、行銷漏斗與成長飛輪跨時代工具演變對照。",
     "category": "design-marketing",
     "author": "Luna Marketing Lab",
     "date": "2026-06-10",

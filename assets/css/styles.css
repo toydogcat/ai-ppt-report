@@ -2067,3 +2067,57 @@ pre code {
   display: block;
 }
 
+/* Premium Presentation Table Layout */
+.layout-table-wrapper {
+  background: rgba(255, 255, 255, 0.01);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  margin-top: 1rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.slide-data-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.slide-data-table th, 
+.slide-data-table td {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  line-height: 1.5;
+}
+
+.slide-data-table th {
+  color: var(--accent-cyan);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 2px solid rgba(6, 182, 212, 0.3);
+}
+
+.slide-data-table td {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+.slide-data-table td strong {
+  color: #fff;
+  font-weight: 600;
+}
+
+.slide-data-table tr:last-child td {
+  border-bottom: none;
+}
+
+.slide-data-table tr:hover td {
+  background: rgba(6, 182, 212, 0.03);
+  color: #fff;
+}
+
+
