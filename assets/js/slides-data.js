@@ -107,6 +107,21 @@ const PRELOADED_DECKS = [
     "slides": []
   },
   {
+    "id": "marketing-methodology-2026",
+    "title": "行銷方法論：流量與成交的藝術",
+    "description": "剖析網路行銷的核心本質，探討短影音導流思維、7大內容主題 X 11大流量密碼，以及行銷漏斗與媒介演變。",
+    "category": "design-marketing",
+    "author": "Luna Marketing Lab",
+    "date": "2026-06-10",
+    "tags": [
+      "Marketing",
+      "Short Video",
+      "Funnel",
+      "Traffic"
+    ],
+    "slides": []
+  },
+  {
     "id": "vibe-coding-2026",
     "title": "Vibe Coding 教學：AI First 開發新典範",
     "description": "專為現代開發者與產品經理設計的實戰課程。解析「Vibe Coding」的核心心法，從寫 Spec 到架構設計的完整指南。",

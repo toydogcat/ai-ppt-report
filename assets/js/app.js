@@ -118,6 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "ai-office-applications-2026": typeof DECK_OFFICE_APPLICATIONS_MD !== "undefined" ? DECK_OFFICE_APPLICATIONS_MD : null,
       "ai-image-video-2026":       typeof DECK_IMAGE_VIDEO_MD !== "undefined"         ? DECK_IMAGE_VIDEO_MD         : null,
       "ai-marketing-image-2026":   typeof DECK_MARKETING_IMAGE_MD !== "undefined"     ? DECK_MARKETING_IMAGE_MD     : null,
+      "marketing-methodology-2026": typeof DECK_MARKETING_METHODOLOGY_MD !== "undefined" ? DECK_MARKETING_METHODOLOGY_MD : null,
       "vibe-coding-2026":          typeof DECK_VIBE_CODING_MD !== "undefined"         ? DECK_VIBE_CODING_MD         : null,
       "n8n-automation-2026":       typeof DECK_N8N_MD !== "undefined"                 ? DECK_N8N_MD                 : null,
       "openclaw-agent-2026":       typeof DECK_OPENCLAW_MD !== "undefined"            ? DECK_OPENCLAW_MD            : null,
